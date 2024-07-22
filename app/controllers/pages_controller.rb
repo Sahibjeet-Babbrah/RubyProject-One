@@ -11,4 +11,12 @@ class PagesController < ApplicationController
             render plain: '401 Unauthorized', status: :unauthorized
         end
     end
+
+    def dashboard
+        if current_user.blank?
+            render plain: '401 Unauthorized', status: :unauthorized
+        else
+            @rfq_data = Rfq.where(:user_id => current_user.id)
+        end
+    end
 end

@@ -1,0 +1,28 @@
+<div class="nested-fields">
+  <br>
+  <%= f.label :name, "Name", style: "display: block" %>
+  <%= f.text_field :name %>
+  <br>
+  <%= f.label :length, "Length (m)", style: "display: block" %>
+  <%= f.number_field :length, step: 0.01%>
+  <br>
+  <%= f.label :width, "Width (m)", style: "display: block" %>
+  <%= f.number_field :width, step: 0.01%>
+  <br>
+  <%= f.label :height, "Height (m)", style: "display: block" %>
+  <%= f.number_field :height, step: 0.01%>
+  <br>
+  <%= f.label :weight, "Weight (kg)", style: "display: block" %>
+  <%= f.number_field :weight, step: 0.01%>
+  <br>
+  <%= f.label :description, "Description", style: "display: block" %>
+  <%= f.text_area :description %>
+  <br>
+  <%= f.label :special_conditions, "Notes/Special Conditions", style: "display: block" %>
+  <%= f.text_area :special_conditions %>
+  <br>
+    <%= link_to_remove_association "Remove Task", f %>
+  <br>
+</div>
+
+<!-- Make nicer for the fields to be added-->

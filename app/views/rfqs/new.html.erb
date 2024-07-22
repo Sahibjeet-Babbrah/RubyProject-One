@@ -1,0 +1,139 @@
+<h1>Request Quotes</h1>
+
+<!-- https://guides.rubyonrails.org/form_helpers.html#building-complex-forms
+https://kylerego.github.io/one-way-to-add-and-remove-form-fields-on-the-fly-in-rails -->
+
+<%= form_with model: @rfq, url: rfqs_path do |form| %>
+    <fieldset>
+        <h3>Items:</h3>
+        <div data-controller="nested-rondo">
+            <%= form.fields_for :items do |item| %>
+                <%= render "item_fields", form: item %>
+            <% end %>
+            <div class="links">
+                <%= link_to_add_association "Add Item", form, :items %>
+            </div>
+            <p data-nested-rondo-target="fieldContain">
+
+            </p>
+        </div>
+    </fieldset>
+
+    <br>
+    
+    <fieldset>
+        <h2>
+            Pickup Address:
+        </h2>
+        
+        <p>
+            <span>
+                <%= form.label :pickup_name, "Name" %>
+            <strong><span aria-label="required">*</span></strong>
+            </span> <br>
+            <%= form.text_field :pickup_name %>
+        </p>
+
+        <p>
+            <span>
+                <%= form.label :pickup_street_address, "Street Address" %>
+            </span> <br>
+            <%= form.text_field :pickup_street_address %>
+        </p>
+
+        <p>
+            <%= form.label :pickup_city_area, "City Area" %> <br>
+            <%= form.text_field :pickup_city_area %>
+        </p>
+
+        <p>
+            <%= form.label :pickup_city, "City"%> <br>
+            <%= form.text_field :pickup_city %>
+        </p>
+
+        <p>
+            <%= form.label :pickup_county, "County" %> <br>
+            <%= form.text_field :pickup_county %>
+        </p>
+
+        <p>
+            <%= form.label :pickup_postal, "Postal/ZIP Code" %> <br>
+            <%= form.text_field :pickup_postal %>
+        </p>
+
+        <p>
+            <%= form.label :pickup_country, "Country" %> <br>
+            <%= form.text_field :pickup_country %>
+        </p>
+
+    </fieldset>
+
+    <br>
+    
+    <fieldset>
+        <h2>
+            Ship To Address:
+        </h2>
+        
+        <p>
+            <span>
+                <%= form.label :shipto_name, "Name" %>
+            <strong><span aria-label="required">*</span></strong>
+            </span> <br>
+            <%= form.text_field :shipto_name %>
+        </p>
+
+        <p>
+            <span>
+                <%= form.label :shipto_street_address, "Street Address" %>
+            </span> <br>
+            <%= form.text_field :shipto_street_address %>
+        </p>
+
+        <p>
+            <%= form.label :shipto_city_area, "City Area" %> <br>
+            <%= form.text_field :shipto_city_area %>
+        </p>
+
+        <p>
+            <%= form.label :shipto_city, "City"%> <br>
+            <%= form.text_field :shipto_city %>
+        </p>
+
+        <p>
+            <%= form.label :shipto_county, "County" %> <br>
+            <%= form.text_field :shipto_county %>
+        </p>
+
+        <p>
+            <%= form.label :shipto_postal, "Postal/ZIP Code" %> <br>
+            <%= form.text_field :shipto_postal %>
+        </p>
+
+        <p>
+            <%= form.label :shipto_country, "Country" %> <br>
+            <%= form.text_field :shipto_country %>
+        </p>
+
+    </fieldset>    
+    
+    <fieldset>
+        <h2>Dates</h2>
+
+        <p>
+            <%= form.label :pickup_date, "Pick Up Date" %> <br>
+            <%= form.date_field :pickup_date %>
+        </p>
+
+        <p>
+            <%= form.label :delivery_date, "Delivery Date" %> <br>
+            <%= form.date_field :delivery_date %>
+        </p>
+    </fieldset>
+    
+    <%= form.hidden_field :state, value: false %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+
+    <%= form.submit "Create Request" %>
+
+<% end %>

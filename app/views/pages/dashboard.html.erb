@@ -1,0 +1,17 @@
+<h1>Welcome to the dashboard, <%= current_user.name %></h1>
+<h1><%= current_user.id %> | <%= current_user.password_digest %></h1>
+
+<h2>Existing RFQs</h2>
+<h3><%= link_to "Create new RFQ", new_rfq_path %></h3>
+<table>
+    <tr>
+        <th>Pickup Name</th>
+        <th>Pickup Street Address</th>
+    </tr>
+<% @rfq_data.each do |data| %>
+    <tr>
+        <td><%= data.pickup_name %></td>
+        <td><%= data.pickup_street_address %></td>
+    </tr>
+<% end %>
+</table>

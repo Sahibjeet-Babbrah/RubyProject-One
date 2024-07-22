@@ -1,0 +1,30 @@
+<!-- <%= form_for(@rfq) do |f| %>
+    <% if @rfq.errors.any? %>
+        <div id="error_explanation">
+            <h2><%= pluralize(@rfq.errors.count, "error") %>
+                prohibited this rfq from being saved:</h2>
+            <ul>
+                <%= @rfq.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+    <div class="field">
+        <%= f.label :pickup_name, "Pickup Name" %>
+        <%= f.text_field :pickup_name %>
+    </div>
+    Items:
+    <%= submit_tag "Add Item", :type => 'button', :id => 'addItemButton', :onclick => "addItemFields"%>
+    <br>
+    <div id="itemsHeader" style="display:none"> Item Information: </div>
+    <br>
+    <fieldset id="itemsList"></fieldset>
+<% end %> -->
+
+<%= form_for(@rfq) do |f| %>
+    <div class="form-inputs">
+        <%= f.text_field :pickup_name %>
+    </div>
+    
+<% end %>
