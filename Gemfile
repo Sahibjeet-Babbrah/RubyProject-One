@@ -65,3 +65,10 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "jquery-rails"
+gem "bootstrap"
+gem "sassc-rails"
+
+gem "cocoon"
+gem "rondo_form", "~> 0.2.6"

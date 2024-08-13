@@ -3,15 +3,53 @@
 
 <h2>Existing RFQs</h2>
 <h3><%= link_to "Create new RFQ", new_rfq_path %></h3>
-<table>
+<table style="width:100%">
     <tr>
         <th>Pickup Name</th>
         <th>Pickup Street Address</th>
+        <th>Dropoff Street Address</th>
+        <th>Pickup Date</th>
+        <th>Delivery Date</th>
+        <th>View Quotes</th>
     </tr>
 <% @rfq_data.each do |data| %>
     <tr>
         <td><%= data.pickup_name %></td>
         <td><%= data.pickup_street_address %></td>
+        <td><%= data.shipto_street_address %></td>
+        <td><%= data.pickup_date %></td>
+        <td><%= data.delivery_date %></td>
+        <td><%= link_to "View Quotes", edit_rfq_path(data) %></td>
+    </tr>
+<% end %>
+</table>
+
+<br>
+
+<h3>Quote Requests</h3>
+<table style="width: 100%;">
+    <tr>
+        <th>Requestee Name</th>
+        <th>Pickup Street Address</th>
+        <th>Dropoff Street Address</th>
+        <th>Status</th>
+    </tr>
+<% @quote_request_data.each do |data| %>
+    <tr>
+        <td><%= User.find(Rfq.find(data.rfq_id).user_id).name %></td>
+        <td><%= Rfq.find(data.rfq_id).pickup_street_address %></td>
+        <td><%= Rfq.find(data.rfq_id).shipto_street_address %></td>
+        <td>
+            <% if !data[:quote_submitted] %>
+                <%= link_to "Create Quote", edit_quote_path(data) %>
+            <% else %>
+                <% if data[:state] %>
+                    <%= link_to "Quote Selected", edit_quote_path(data) %>
+                <% else %>
+                    <%= link_to "Quote Declined", edit_quote_path(data) %>
+                <% end %>
+            <% end %>
+        </td>
     </tr>
 <% end %>
 </table>

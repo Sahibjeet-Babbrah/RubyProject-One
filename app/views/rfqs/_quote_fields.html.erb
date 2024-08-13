@@ -1,0 +1,15 @@
+<!--Fields to select users to send quote to-->
+<div class="quote-field">
+    <br>
+    <%# <%= f.label current_user.id %>
+    <%= f.collection_select :user_id, User.where("NOT id=#{current_user.id}"), :id, :name, {prompt: ''} %>
+
+    <%= f.hidden_field :cost, value: 0 %>
+    <%= f.hidden_field :special_conditions, value: "" %>
+    <%= f.hidden_field :state, value: nil %>
+    <%= f.hidden_field :quote_submitted, value: nil %>
+
+    <%= link_to_remove_association "Remove Requestee", f %>
+    
+    <br>
+</div>

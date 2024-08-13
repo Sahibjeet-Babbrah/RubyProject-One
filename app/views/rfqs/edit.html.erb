@@ -1,0 +1,67 @@
+<h1>View Quotes</h1>
+<% page_value="view_quotes" %>
+
+<h3>Quotes</h3>
+
+<div class="cards">
+    <% @quotes.each do |quote| %>
+        <div class="card">
+            <%= User.find(quote.user_id).name %> <br>
+            <% if quote.quote_submitted == nil || quote.quote_submitted == false %>
+                No Quote Submitted <br>
+            <% else %> 
+                Cost: <%= quote.cost %> <br>
+                <% if quote.special_conditions != "" %>
+                    Special Conditions: <%= quote.special_conditions %>
+                <% end %>
+            <% end %>
+
+            <div class="center-screen">
+                <% if @rfq.state != true %>
+                    <%= link_to "Select Quote", edit_rfq_quote_path(@rfq, quote) %>
+                <% else %>
+                    <% if quote.state != true %>
+                        Quote not selected
+                    <% else %>
+                        Quote selected
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+</div>
+
+<%# Create popup for verifying selected quote and set RFQ state to true to close any other things
+https://duckduckgo.com/?q=ruby+on+rails+popups&t=ffab&atb=v250-1&ia=web
+https://www.youtube.com/watch?v=1c_tHifJVRI
+https://medium.com/@hienviluong125/ruby-on-rails-creating-pop-ups-with-stimulus-without-external-javascript-libraries-7ec01cd6ddd7 %>
+
+
+<h2>Request For Quote Information</h2>
+<br>
+<h3>Pickup Information</h3>
+<%= @rfq.pickup_name %>
+
+<br>
+<h3>Dropoff Information</h3>
+
+<br>
+<h3>Items</h3>
+<div class="cards">
+    <% @rfq.items.each do |item| %>
+        <br>
+        <div class="grid-item">
+            <div class="card">
+                <fieldset>
+                    Name: <%= item.name %> <br>
+                    Description: <%= item.description %> <br>
+                    Length (m): <%= item.length %> <br>
+                    Width (m): <%= item.width %> <br>
+                    Height (m): <%= item.height %> <br>
+                    Widght (kg): <%= item.weight %> <br>
+                </fieldset>
+            </div>
+        </div>
+        <br>
+    <% end %>
+</div>

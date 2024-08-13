@@ -17,6 +17,7 @@ class PagesController < ApplicationController
             render plain: '401 Unauthorized', status: :unauthorized
         else
             @rfq_data = Rfq.where(:user_id => current_user.id)
+            @quote_request_data = Quote.where(:user_id => current_user.id)
         end
     end
 end

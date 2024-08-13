@@ -1,27 +1,37 @@
-<div class="nested-fields">
+<div class="item-field">
   <br>
-  <%= f.label :name, "Name", style: "display: block" %>
-  <%= f.text_field :name %>
+  <%# <% invalid = @rfq.errors.include?(:item.name) %>
+  <%= f.label :name, "Name" %>
+  <%= f.text_field :name, class: "form-control" %>
+  <%# <% if invalid %> 
+      <%# <div class="invalid-feedback d-block"> %>
+          <%# <% @rfq.errors.full_messages_for(:item.name).each do |error_message| %> 
+              <%# <%= error_message %>
+              <%# Required %>
+          <%# <% end %> 
+      <%# </div> %>
+  <%# <% end %>
+  
   <br>
-  <%= f.label :length, "Length (m)", style: "display: block" %>
-  <%= f.number_field :length, step: 0.01%>
+  <%= f.label :length, "Length (m)"%>
+  <%= f.number_field :length, step: 0.01, class: "form-control"%>
   <br>
   <%= f.label :width, "Width (m)", style: "display: block" %>
-  <%= f.number_field :width, step: 0.01%>
+  <%= f.number_field :width, step: 0.01, class: "form-control"%>
   <br>
   <%= f.label :height, "Height (m)", style: "display: block" %>
-  <%= f.number_field :height, step: 0.01%>
+  <%= f.number_field :height, step: 0.01, class: "form-control"%>
   <br>
   <%= f.label :weight, "Weight (kg)", style: "display: block" %>
-  <%= f.number_field :weight, step: 0.01%>
+  <%= f.number_field :weight, step: 0.01, class: "form-control"%>
   <br>
   <%= f.label :description, "Description", style: "display: block" %>
-  <%= f.text_area :description %>
+  <%= f.text_area :description, class: "form-control" %>
   <br>
   <%= f.label :special_conditions, "Notes/Special Conditions", style: "display: block" %>
-  <%= f.text_area :special_conditions %>
+  <%= f.text_area :special_conditions, class: "form-control" %>
   <br>
-    <%= link_to_remove_association "Remove Task", f %>
+    <%= link_to_remove_association "Remove Item", f %>
   <br>
 </div>
 

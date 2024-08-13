@@ -19,6 +19,13 @@
 Rails.application.routes.draw do
   root 'pages#index'
   get 'pages/secret'
+  get 'pages/dashboard'
+  get '/rfqs/new', to: "rfqs#new"
   resources :user_sessions, only: [:new, :create, :destroy]
   resources :users, only: [:index, :new, :create]
+  resources :rfqs, only: [:new, :create, :show, :edit] do
+    resources :quotes, only: [:new, :create, :edit, :update]
+  end
+  resources :quotes
+  resources :items, only: [:new, :create]
 end
