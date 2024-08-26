@@ -1,7 +1,7 @@
 class Rfq < ApplicationRecord
     belongs_to :user
 
-    has_many :items, dependent: :destroy, inverse_of: :rfq
+    has_many :items, dependent: :destroy, inverse_of: :rfq, index_errors: true
     accepts_nested_attributes_for :items, reject_if: :all_blank, allow_destroy: true
     
     has_many :quotes, dependent: :destroy, inverse_of: :rfq
@@ -25,4 +25,6 @@ class Rfq < ApplicationRecord
     # validate :delivery_date_after_pickup_date
 
     validates :items, length: {minimum: 1, message: "Must contain at least 1 item"}
+
+    validates_associated :items
 end

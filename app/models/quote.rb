@@ -6,4 +6,6 @@ class Quote < ApplicationRecord
     delegate :state=, :to => :rfq, prefix: true
     delegate :length, to: :rfq, prefix: true, allow_nil: false
     delegate :length=, to: :rfq, prefix: true
+
+    validates :cost, numericality: {greater_than_or_equal_to: 0.1, only_float: true}, on: :update
 end

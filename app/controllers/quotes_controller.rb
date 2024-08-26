@@ -15,7 +15,12 @@ class QuotesController < ApplicationController
   def update
     @quote = Quote.find(params[:id])
     if @quote.update(quote_params)
-      print(quote_params)
+      # Quote is being submitted by the user
+      if quote_params[:state] == nil
+        @quote.update(quote_submitted: true, state: nil)
+      else
+        # Quote has been selected by RFQ creator, send the email here to update the person and link to the page
+      end
       redirect_to pages_dashboard_path
     else
       render :edit, status: :unprocessable_content

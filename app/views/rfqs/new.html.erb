@@ -1,19 +1,26 @@
-<h1>Request Quotes</h1>
 
+<div class="row">
+    <div class="column side">
+        <h2 style="position: sticky; top: 5%; padding-left: 8%;">Request Quotes</h2>
+    </div>
+    <div class="column middle">
 <!-- https://guides.rubyonrails.org/form_helpers.html#building-complex-forms
 https://kylerego.github.io/one-way-to-add-and-remove-form-fields-on-the-fly-in-rails -->
 <%= form_with model: @rfq, url: rfqs_path do |f| %>
+
+    <%= @rfq.errors.full_messages %>
 
     <fieldset>
         <h3>Items:</h3>
         <div data-controller="nested-rondo" data-nested-rondo-field-class-value="item-field">
             <%= f.fields_for :items do |item| %>
-                <%= render "item_fields", f: item %>
+                <%= render "item_fields", f: item, :locals => {f: item, index: item.index} %>
             <% end %>
+
             <div class="links">
                 <%= link_to_add_association "Add Item", f, :items, class: "form-control" %>
             </div>
-            <p data-nested-rondo-target="fieldContain">
+            <p data-nested-rondo-target="fieldContain" class="cards">
 
             </p>
         </div>
@@ -37,246 +44,253 @@ https://kylerego.github.io/one-way-to-add-and-remove-form-fields-on-the-fly-in-r
     </fieldset>
 
     <br>
-    
-    <fieldset>
-        <h2>
-            Pickup Address:
-        </h2>
-        
-        <p>
-            <% invalid = @rfq.errors.include?(:pickup_name) %>
-            <span>
-                <%= f.label :pickup_name, "Name" %>
-            <strong><span aria-label="required">*</span></strong>
-            </span> <br>
-            <%= f.text_field :pickup_name, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:pickup_name).each do |error_message| %>
-                        <%= error_message %>
-                    <% end %>
-                </div>
-            <% end %>
-        </p>
 
-        <p>
-            <% invalid = @rfq.errors.include?(:pickup_street_address) %>
+    <fieldset class="cards2column">
+        <div>
 
-            <%= f.label :pickup_street_address, "Street Address" %><br>
-            <%= f.text_field :pickup_street_address, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:pickup_street_address).each do |error_message| %>
-                        <%# <%= error_message %>
-                        Street Address Cannot be Blank
-                    <% end %>
-                </div>
-            <% end %>
-        </p>
-
-        <p>
-            <%= f.label :pickup_city_area, "City Area" %> <br>
-            <%= f.text_field :pickup_city_area, class: "form-control" %>
-        </p>
-
-        <p>
-            <% invalid = @rfq.errors.include?(:pickup_city) %>
-
-            <%= f.label :pickup_city, "City"%> <br>
-            <%= f.text_field :pickup_city, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:pickup_city).each do |error_message| %>
-                        <%# <%= error_message %>
-                        City Is Required
-                    <% end %>
-                </div>
-            <% end %>
-        </p>
-
-        <p>
-            <%= f.label :pickup_county, "County" %> <br>
-            <%= f.text_field :pickup_county, class: "form-control" %>
-        </p>
-
-        <p>
-            <% invalid = @rfq.errors.include?(:pickup_postal) %>
+            <h2>
+                Pickup Address:
+            </h2>
             
-            <%= f.label :pickup_postal, "Postal/ZIP Code" %> <br>
-            <%= f.text_field :pickup_postal, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:pickup_postal).each do |error_message| %>
-                        <%# <%= error_message %>
-                        Postal/ZIP Code Is Required
+            <p>
+                <% invalid = @rfq.errors.include?(:pickup_name) %>
+
+                <%= f.label :pickup_name, "Name" %>
+                <%= f.text_field :pickup_name, class: "form-control #{'is-invalid' if invalid}" %>
+                <% if invalid %>
+                    <div class="invalid-feedback d-block">
+                        <% @rfq.errors.full_messages_for(:pickup_name).each do |error_message| %>
+                            <%= error_message %>
+                        <% end %>
+                    </div>
+                <% end %>
+            </p>
+
+            <p>
+                <% invalid = @rfq.errors.include?(:pickup_street_address) %>
+
+                <%= f.label :pickup_street_address, "Street Address" %>
+                <%= f.text_field :pickup_street_address, class: "form-control #{'is-invalid' if invalid}" %>
+                <% if invalid %>
+                    <div class="invalid-feedback d-block">
+                        <% @rfq.errors.full_messages_for(:pickup_street_address).each do |error_message| %>
+                            <%# <%= error_message %>
+                            Street Address Cannot be Blank
+                        <% end %>
+                    </div>
+                <% end %>
+            </p>
+
+            <p>
+                <%= f.label :pickup_city_area, "City Area" %> 
+                <%= f.text_field :pickup_city_area, class: "form-control" %>
+            </p>
+
+            <p>
+                <% invalid = @rfq.errors.include?(:pickup_city) %>
+
+                <%= f.label :pickup_city, "City"%> 
+                <%= f.text_field :pickup_city, class: "form-control #{'is-invalid' if invalid}" %>
+                <% if invalid %>
+                    <div class="invalid-feedback d-block">
+                        <% @rfq.errors.full_messages_for(:pickup_city).each do |error_message| %>
+                            <%# <%= error_message %>
+                            City Is Required
+                        <% end %>
+                    </div>
+                <% end %>
+            </p>
+
+            <p>
+                <%= f.label :pickup_county, "County" %> 
+                <%= f.text_field :pickup_county, class: "form-control" %>
+            </p>
+
+            <p>
+                <% invalid = @rfq.errors.include?(:pickup_postal) %>
+                
+                <%= f.label :pickup_postal, "Postal/ZIP Code" %> 
+                <%= f.text_field :pickup_postal, class: "form-control #{'is-invalid' if invalid}" %>
+                <% if invalid %>
+                    <div class="invalid-feedback d-block">
+                        <% @rfq.errors.full_messages_for(:pickup_postal).each do |error_message| %>
+                            <%# <%= error_message %>
+                            Postal/ZIP Code Is Required
+                        <% end %>
+                    </div>
+                <% end %>
+            </p>
+
+            <p>
+                <% invalid = @rfq.errors.include?(:pickup_state) %>
+
+                <%= f.label :pickup_state, "Province/State" %> 
+                <%= f.text_field :pickup_state, class: "form-control #{'is-invalid' if invalid}" %>
+                <% if invalid %>
+                    <div class="invalid-feedback d-block">
+                        <% @rfq.errors.full_messages_for(:pickup_state).each do |error_message| %>
+                            <%# <%= error_message %>
+                            Province/State Is Required
+                        <% end %>
+                    </div>
+                <% end %>
+            </p>
+
+            <p>
+                <% invalid = @rfq.errors.include?(:pickup_country) %>
+
+                <%= f.label :pickup_country, "Country" %> 
+                <%= f.text_field :pickup_country, class: "form-control #{'is-invalid' if invalid}" %>
+                <% if invalid %>
+                    <div class="invalid-feedback d-block">
+                        <% @rfq.errors.full_messages_for(:pickup_country).each do |error_message| %>
+                            <%# <%= error_message %>
+                            Country Is Required
+                        <% end %>
+                    </div>
+                <% end %>
+            </p>
+        </div>
+
+        <div>
+
+            <h2>
+                Ship To Address:
+            </h2>
+            
+            <p>
+                <% invalid = @rfq.errors.include?(:shipto_name) %>
+
+                <%= f.label :shipto_name, "Name" %>
+                <%= f.text_field :shipto_name, class: "form-control #{'is-invalid' if invalid}" %>
+                <% if invalid %>
+                    <div class="invalid-feedback d-block">
+                        <% @rfq.errors.full_messages_for(:shipto_name).each do |error_message| %>
+                            <%# <%= error_message %>
+                            Required
+                        <% end %>
+                    </div>
+                <% end %>
+            </p>
+
+            <p>
+                <% invalid = @rfq.errors.include?(:shipto_street_address) %>
+
+                <%= f.label :shipto_street_address, "Street Address" %>
+                <%= f.text_field :shipto_street_address, class: "form-control #{'is-invalid' if invalid}" %>
+                <% if invalid %>
+                    <div class="invalid-feedback d-block">
+                        <% @rfq.errors.full_messages_for(:shipto_street_address).each do |error_message| %>
+                            <%# <%= error_message %>
+                            Required
+                        <% end %>
+                    </div>
+                <% end %>
+            </p>
+
+            <p>
+                <%= f.label :shipto_city_area, "City Area" %> 
+                <%= f.text_field :shipto_city_area, class: "form-control" %>
+            </p>
+
+            <p>
+                <% invalid = @rfq.errors.include?(:shipto_city) %>
+
+                <%= f.label :shipto_city, "City"%> 
+                <%= f.text_field :shipto_city, class: "form-control #{'is-invalid' if invalid}" %>
+                <% if invalid %>
+                    <div class="invalid-feedback d-block">
+                        <% @rfq.errors.full_messages_for(:shipto_city).each do |error_message| %>
+                            <%# <%= error_message %>
+                            Required
+                        <% end %>
+                    </div>
+                <% end %>
+            </p>
+
+            <p>
+                <%= f.label :shipto_county, "County" %>
+                <%= f.text_field :shipto_county, class: "form-control" %>
+            </p>
+
+            <p>
+                <% invalid = @rfq.errors.include?(:shipto_postal) %>
+
+                <%= f.label :shipto_postal, "Postal/ZIP Code" %>
+                <%= f.text_field :shipto_postal, class: "form-control #{'is-invalid' if invalid}" %>
+                <% if invalid %>
+                    <div class="invalid-feedback d-block">
+                        <% @rfq.errors.full_messages_for(:shipto_postal).each do |error_message| %>
+                            <%# <%= error_message %>
+                            Required
+                        <% end %>
+                    </div>
+                <% end %>
+            </p>
+
+            <p>
+                <% invalid = @rfq.errors.include?(:shipto_state) %>
+
+                <%= f.label :shipto_state, "Province/State" %>
+                <%= f.text_field :shipto_state, class: "form-control #{'is-invalid' if invalid}" %>
+                <% if invalid %>
+                    <div class="invalid-feedback d-block">
+                        <% @rfq.errors.full_messages_for(:shipto_state).each do |error_message| %>
+                            <%# <%= error_message %>
+                            Required
+                        <% end %>
+                    </div>
+                <% end %>
+            </p>
+
+            <p>
+                <% invalid = @rfq.errors.include?(:shipto_country) %>
+
+                <%= f.label :shipto_country, "Country" %>
+                <%= f.text_field :shipto_country, class: "form-control #{'is-invalid' if invalid}" %>
+                <% if invalid %>
+                    <div class="invalid-feedback d-block">
+                        <% @rfq.errors.full_messages_for(:shipto_country).each do |error_message| %>
+                            <%# <%= error_message %>
+                            Required
+                        <% end %>
+                    </div>
+                <% end %>
+            </p>
+
+        </fieldset>    
+        
+        <h2>Dates</h2>
+        <fieldset class="cards2column">
+            <div>
+                <p>
+                    <% invalid = @rfq.errors.include?(:pickup_date) %>
+
+                    <%= f.label :pickup_date, "Pick Up Date" %> 
+                    <%= f.date_field :pickup_date, class: "form-control #{'is-invalid' if invalid}" %>
+                    <% if invalid %>
+                        <div class="invalid-feedback d-block">
+                            <% @rfq.errors.full_messages_for(:pickup_date).each do |error_message| %>
+                                <%# <%= error_message %>
+                                Required
+                            <% end %>
+                        </div>
                     <% end %>
-                </div>
-            <% end %>
-        </p>
+                </p>
+            </div>
 
-        <p>
-            <% invalid = @rfq.errors.include?(:pickup_state) %>
-
-            <%= f.label :pickup_state, "Province/State" %> <br>
-            <%= f.text_field :pickup_state, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:pickup_state).each do |error_message| %>
-                        <%# <%= error_message %>
-                        Province/State Is Required
-                    <% end %>
-                </div>
-            <% end %>
-        </p>
-
-        <p>
-            <% invalid = @rfq.errors.include?(:pickup_country) %>
-
-            <%= f.label :pickup_country, "Country" %> <br>
-            <%= f.text_field :pickup_country, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:pickup_country).each do |error_message| %>
-                        <%# <%= error_message %>
-                        Country Is Required
-                    <% end %>
-                </div>
-            <% end %>
-        </p>
-
+            <div>
+                <p>
+                    <%= f.label :delivery_date, "Delivery Date" %> 
+                    <%= f.date_field :delivery_date, class: "form-control #{'is-invalid' if invalid}" %>
+                </p>
+            </div>
+        </div>
     </fieldset>
 
     <br>
     
     <fieldset>
-        <h2>
-            Ship To Address:
-        </h2>
-        
-        <p>
-            <% invalid = @rfq.errors.include?(:shipto_name) %>
-
-            <%= f.label :shipto_name, "Name" %>* <br>
-            <%= f.text_field :shipto_name, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:shipto_name).each do |error_message| %>
-                        <%# <%= error_message %>
-                        Required
-                    <% end %>
-                </div>
-            <% end %>
-        </p>
-
-        <p>
-            <% invalid = @rfq.errors.include?(:shipto_street_address) %>
-
-            <%= f.label :shipto_street_address, "Street Address" %>*<br>
-            <%= f.text_field :shipto_street_address, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:shipto_street_address).each do |error_message| %>
-                        <%# <%= error_message %>
-                        Required
-                    <% end %>
-                </div>
-            <% end %>
-        </p>
-
-        <p>
-            <%= f.label :shipto_city_area, "City Area" %> <br>
-            <%= f.text_field :shipto_city_area, class: "form-control" %>
-        </p>
-
-        <p>
-            <% invalid = @rfq.errors.include?(:shipto_city) %>
-
-            <%= f.label :shipto_city, "City"%> <br>
-            <%= f.text_field :shipto_city, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:shipto_city).each do |error_message| %>
-                        <%# <%= error_message %>
-                        Required
-                    <% end %>
-                </div>
-            <% end %>
-        </p>
-
-        <p>
-            <%= f.label :shipto_county, "County" %> <br>
-            <%= f.text_field :shipto_county, class: "form-control" %>
-        </p>
-
-        <p>
-            <% invalid = @rfq.errors.include?(:shipto_postal) %>
-
-            <%= f.label :shipto_postal, "Postal/ZIP Code" %> <br>
-            <%= f.text_field :shipto_postal, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:shipto_postal).each do |error_message| %>
-                        <%# <%= error_message %>
-                        Required
-                    <% end %>
-                </div>
-            <% end %>
-        </p>
-
-        <p>
-            <% invalid = @rfq.errors.include?(:shipto_state) %>
-
-            <%= f.label :shipto_state, "Province/State" %>
-            <%= f.text_field :shipto_state, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:shipto_state).each do |error_message| %>
-                        <%# <%= error_message %>
-                        Required
-                    <% end %>
-                </div>
-            <% end %>
-        </p>
-
-        <p>
-            <% invalid = @rfq.errors.include?(:shipto_country) %>
-
-            <%= f.label :shipto_country, "Country" %> <br>
-            <%= f.text_field :shipto_country, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:shipto_country).each do |error_message| %>
-                        <%# <%= error_message %>
-                        Required
-                    <% end %>
-                </div>
-            <% end %>
-        </p>
-
-    </fieldset>    
-    
-    <fieldset>
-        <h2>Dates</h2>
-
-        <p>
-            <% invalid = @rfq.errors.include?(:pickup_date) %>
-
-            <%= f.label :pickup_date, "Pick Up Date" %> <br>
-            <%= f.date_field :pickup_date, class: "form-control #{'is-invalid' if invalid}" %>
-            <% if invalid %>
-                <div class="invalid-feedback d-block">
-                    <% @rfq.errors.full_messages_for(:pickup_date).each do |error_message| %>
-                        <%# <%= error_message %>
-                        Required
-                    <% end %>
-                </div>
-            <% end %>
-        </p>
-
-        <p>
-            <%= f.label :delivery_date, "Delivery Date" %> <br>
-            <%= f.date_field :delivery_date, class: "form-control #{'is-invalid' if invalid}" %>
-        </p>
     </fieldset>
     
     <%= f.hidden_field :state, value: nil %>
@@ -285,3 +299,5 @@ https://kylerego.github.io/one-way-to-add-and-remove-form-fields-on-the-fly-in-r
     <%= f.submit "Create Request", class: "form-control" %>
 
 <% end %>
+</div>
+</div>

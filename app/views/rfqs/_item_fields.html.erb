@@ -1,16 +1,21 @@
 <div class="item-field">
   <br>
-  <%# <% invalid = @rfq.errors.include?(:item.name) %>
+  <%# <% index = f.index %>
+  <%# <%= index_errors %>
+
+  <% index = @rfq.items.length %>
+  <%= index %>
+
+  <% invalid = @rfq.errors.include?(:item) %>
   <%= f.label :name, "Name" %>
   <%= f.text_field :name, class: "form-control" %>
-  <%# <% if invalid %> 
-      <%# <div class="invalid-feedback d-block"> %>
-          <%# <% @rfq.errors.full_messages_for(:item.name).each do |error_message| %> 
-              <%# <%= error_message %>
-              <%# Required %>
-          <%# <% end %> 
-      <%# </div> %>
-  <%# <% end %>
+  <% if invalid %>
+      <div class="invalid-feedback d-block">
+          <% f.errors.full_messages_for(:item.name).each do |error_message| %>
+              <%= error_message %>
+          <% end %>
+      </div>
+  <% end %>
   
   <br>
   <%= f.label :length, "Length (m)"%>

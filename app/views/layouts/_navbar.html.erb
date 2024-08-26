@@ -1,0 +1,24 @@
+<ul>
+    <% if current_user %>
+        
+        <% if current_page?('/pages/dashboard') %>
+            <li><%= link_to "Dashboard", "/pages/dashboard", class: "active" %></li>
+        <% else %>
+            <li><%= link_to "Dashboard", "/pages/dashboard"%></li>
+        <% end %>
+        
+        <% if current_page?(new_rfq_path) %>
+            <li><%= link_to "Request Quote", new_rfq_path, class: "active" %></li>
+        <% else %>
+            <li><%= link_to "Request Quote", new_rfq_path %></li>
+        <% end %>
+    <% end %>
+    
+    <li style="float:right">
+        <% if current_user %>
+            <%= link_to "Log Out", user_session_path(current_user), data: {turbo_method: :delete}%>
+        <% else %>
+            <%= link_to "Login", new_user_session_path %>
+        <% end %>
+    </li>
+</ul>

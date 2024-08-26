@@ -4,130 +4,142 @@
 <% if @quote.user_id == current_user.id %>
     <% access = true %>
 <% else %>
-    Access Denied
     <h1>Accept Quote</h1>
 <% end %>
 
-<% if access == true %>
-
-    <% if @quote[:quote_submitted] %>
-        <h1>View Quote</h1>
-        Cost: <%= @quote[:cost] %> <br>
-        Additional Information: <%= @quote[:additional_information] %> <br>
-        Selected: 
-        
-        <% if rfq_information.state != true %>
-            Under Consideration
+<div class="row">
+    <div class="column side">
+        <% if @quote[:quote_submitted] %>
+            <h1 style="position: sticky; top: 5%; padding-left: 4%;">View Quote</h1>
+        <% elsif @quote[:state] == false %>
         <% else %>
-            <% if @quote[:state] == true %>
-                Accepted
+            <h1 style="position: sticky; top: 5%; padding-left: 4%;">Create Quote</h1>
+        <% end %>
+    </div>
+
+    <div class="column middle">
+        <% if access == true %>
+            <% if @quote[:quote_submitted] %>
+                <h2>Status: 
+                <% if rfq_information.state != true %>
+                    Under Consideration
+                <% else %>
+                    <% if @quote[:state] == true %>
+                        Accepted
+                    <% else %>
+                        Declined
+                    <% end %>
+                <% end %></h2>
+                Cost: <%= @quote[:cost] %> <br>
+                Additional Information: <%= @quote[:special_conditions] %> <br>
+            <% elsif @quote[:state] == false %>
+                Unavailable, requester has already selected another quote
             <% else %>
-                Declined
+                <h4>Fill out quote information below, details listed below:</h4> <br>
+                <%= form_with model: @quote do |f| %>
+
+                    <% invalid = @quote.errors.include?(:cost) %>
+
+                    <%= f.label :cost, "Cost"%>
+                    <%= f.number_field :cost, class: "form-control #{'is-invalid' if invalid}", step: 0.01 %>
+                    <% if invalid %>
+                        <div class="invalid-feedback d-block">
+                            <% @quote.errors.full_messages_for(:cost).each do |error_message| %>
+                                <%= error_message %>
+                            <% end %>
+                        </div>
+                    <% end %>
+
+                    <%= f.label :special_conditions, "Additional Information (Optional)" %>
+                    <%= f.text_area :special_conditions, size: '100x10', class: 'form-control' %>
+
+                    <% f.hidden_field :state, value: nil %>
+
+                    <%= @quote.user_id %>
+
+                    <%= f.submit "Send Quote", class: 'form-control' %>
+
+                <% end %>
             <% end %>
-        <% end %>    
-    <% elsif @quote[:state] == false %>
-        Unavailable, requester has already selected another quote
-    <% else %>
-        <h1>Create Quote</h1>
-        <h4>Fill out quote information below, details listed below:</h4> <br>
-        <%= form_with model: @quote do |f| %>
 
-            <%= f.label :cost, "Cost"%>
-            <%= f.number_field :cost, class: 'form-control', step: 0.01 %>
-
-            <%= f.label :special_conditions, "Additional Information" %>
-            <%= f.text_area :special_conditions, size: '100x10', class: 'form-control' %>
-
-            <%= @quote.user_id %>
-
-            <%= f.hidden_field :state, value: nil %>
-            <%= f.hidden_field :quote_submitted, value: true %>
-
-            <%= f.submit "Send Quote", class: 'form-control' %>
-
-        <% end %>
-    <% end %>
-
-    <br>
-    <br>
-<% else %>
-    <%# Create the form to select the quote and close the Rfq %>
-    <% if rfq_information.state == true %>
-        <% if @quote.state == true %>
-            <h3>Quote has been selected.</h3>
+            <br>
+            <br>
         <% else %>
-            <h3>Unfortunatly, quote not selected.</h3>
-        <% end %>
-        <h3>Cost: <%= @quote.cost %></h3>
-        <h3>Special Conditions: <%= @quote.special_conditions %></h3>
-    <% else %>
-        <% if @quote.quote_submitted != true %>
-            <h3>Quote Not Submitted</h3>
-        <% else %>
-            <h3>Cost: <%= @quote.cost %></h3>
-            <h3>Special Conditions: <%= @quote.special_conditions %></h3>
+            <!-- Create the form to select the quote and close the Rfq -->
+            <% if rfq_information.state == true %>
+                <% if @quote.state == true %>
+                    <h3>Quote has been selected.</h3>
+                <% else %>
+                    <h3>Unfortunatly, quote not selected.</h3>
+                <% end %>
+                <h3>Cost: <%= @quote.cost %></h3>
+                <h3>Special Conditions: <%= @quote.special_conditions %></h3>
+            <% else %>
+                <% if @quote.quote_submitted != true %>
+                    <h3>Quote Not Submitted</h3>
+                <% else %>
+                    <h3>Cost: <%= @quote.cost %></h3>
+                    <h3>Special Conditions: <%= @quote.special_conditions %></h3>
 
-            <%= form_with model: @quote do |f| %>
-                <%= f.hidden_field :state, value: true %>
-                <%= f.hidden_field :rfq_state, value: true %>
-                <!-- https://www.reddit.com/r/rails/comments/4crn5d/is_there_a_way_to_update_the_parent_through_the/ -->
-            
-                <%= f.submit "Send Quote", data: {confirm: 'Are you sure you want to select this quote? (Cannot be undone)'}, class: "form-control" %>
+                    <%= form_with model: @quote do |f| %>
+                        <%= f.hidden_field :state, value: true %>
+                        <%= f.hidden_field :rfq_state, value: true %>
+                        <!-- https://www.reddit.com/r/rails/comments/4crn5d/is_there_a_way_to_update_the_parent_through_the/ -->
+
+                        <%= f.submit "Send Quote", data: {confirm: 'Are you sure you want to select this quote? (Cannot be undone)'}, class: "form-control" %>
+                    <% end %>
+                <% end %>
             <% end %>
-            
         <% end %>
-    <% end %>
-<% end %>
-
-<h2>Request Details</h2>
-
-<div class="cards">
-    <div class="card">
-        <h3>Pickup Information</h3>
-        Name: <%= rfq_information.pickup_name %> <br>
-        Street: <%= rfq_information.pickup_street_address %> <br>
-        City Area: <%= rfq_information.pickup_city_area %> <br>
-        City: <%= rfq_information.pickup_city %> <br>
-        County: <%= rfq_information.pickup_county %> <br>
-        Postal: <%= rfq_information.pickup_postal %> <br>
-        Country: <%= rfq_information.pickup_country %> <br>
-        Pickup Date: <%= rfq_information.pickup_date %> <br>
     </div>
-
-    <div class="card">
-        <h3>Dropoff Information</h3>
-        Name: <%= rfq_information.shipto_name %> <br>
-        Street: <%= rfq_information.shipto_street_address %> <br>
-        City Area: <%= rfq_information.shipto_city_area %> <br>
-        City: <%= rfq_information.shipto_city %> <br>
-        County: <%= rfq_information.shipto_county %> <br>
-        Postal: <%= rfq_information.shipto_postal %> <br>
-        Country: <%= rfq_information.shipto_country %> <br>
-        Pickup Date: <%= rfq_information.delivery_date %> <br>
-    </div>
-
-
 </div>
 
-<br>
+<div class="row">
+    <div class="column side">
+    </div>
 
-<h3>Items: </h3>
-<div class="cards">
-    <% rfq_information.items.each do |item| %>
-        <div class="card">
-            Name: <%= item.name %> <br>
-            Description: <%= item.description %> <br>
-            Length (m): <%= item.length %> <br>
-            Width (m): <%= item.width %> <br>
-            Weight (kg): <%= item.weight %> <br>
-            Special Conditions: <%= item.special_conditions %> <br>
+    <div class="column middle">
+        <h2>Request Details</h2>
+        <div class="cards2column">
+            <div class="card">
+                <h3>Pickup Information</h3>
+                Name: <%= rfq_information.pickup_name %> <br>
+                Street: <%= rfq_information.pickup_street_address %> <br>
+                City Area: <%= rfq_information.pickup_city_area %> <br>
+                City: <%= rfq_information.pickup_city %> <br>
+                County: <%= rfq_information.pickup_county %> <br>
+                Postal: <%= rfq_information.pickup_postal %> <br>
+                Country: <%= rfq_information.pickup_country %> <br>
+                Pickup Date: <%= rfq_information.pickup_date %> <br>
+            </div>
+
+            <div class="card">
+                <h3>Dropoff Information</h3>
+                Name: <%= rfq_information.shipto_name %> <br>
+                Street: <%= rfq_information.shipto_street_address %> <br>
+                City Area: <%= rfq_information.shipto_city_area %> <br>
+                City: <%= rfq_information.shipto_city %> <br>
+                County: <%= rfq_information.shipto_county %> <br>
+                Postal: <%= rfq_information.shipto_postal %> <br>
+                Country: <%= rfq_information.shipto_country %> <br>
+                Pickup Date: <%= rfq_information.delivery_date %> <br>
+            </div>
         </div>
+
         <br>
-    <% end %>
+
+        <h3>Items: </h3>
+        <div class="cards">
+            <% rfq_information.items.each do |item| %>
+                <div class="card">
+                    Name: <%= item.name %> <br>
+                    Description: <%= item.description %> <br>
+                    Length (m): <%= item.length %> <br>
+                    Width (m): <%= item.width %> <br>
+                    Weight (kg): <%= item.weight %> <br>
+                    Special Conditions: <%= item.special_conditions %> <br>
+                </div>
+            <% end %>
+        </div>
+    </div>
 </div>
-
-
-<br>
-
-
-<br>
