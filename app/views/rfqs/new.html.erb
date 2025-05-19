@@ -1,14 +1,13 @@
+<div class="column side">
+    <h2 style="position: sticky; top: 5%; padding-left: 8%;">Request Quotes</h2>
+</div>
 
-<div class="row">
-    <div class="column side">
-        <h2 style="position: sticky; top: 5%; padding-left: 8%;">Request Quotes</h2>
-    </div>
-    <div class="column middle">
+<div class="column middle">
 <!-- https://guides.rubyonrails.org/form_helpers.html#building-complex-forms
 https://kylerego.github.io/one-way-to-add-and-remove-form-fields-on-the-fly-in-rails -->
 <%= form_with model: @rfq, url: rfqs_path do |f| %>
 
-    <%= @rfq.errors.full_messages %>
+    <%# <%= @rfq.errors.full_messages %>
 
     <fieldset>
         <h3>Items:</h3>
@@ -258,10 +257,15 @@ https://kylerego.github.io/one-way-to-add-and-remove-form-fields-on-the-fly-in-r
                 <% end %>
             </p>
 
-        </fieldset>    
+        </fieldset>
+
+        <br>
         
-        <h2>Dates</h2>
         <fieldset class="cards2column">
+            <div>
+                <h2>Dates</h2>
+            </div>
+            <br>
             <div>
                 <p>
                     <% invalid = @rfq.errors.include?(:pickup_date) %>
@@ -285,19 +289,16 @@ https://kylerego.github.io/one-way-to-add-and-remove-form-fields-on-the-fly-in-r
                     <%= f.date_field :delivery_date, class: "form-control #{'is-invalid' if invalid}" %>
                 </p>
             </div>
-        </div>
-    </fieldset>
+        </fieldset>
 
     <br>
     
-    <fieldset>
-    </fieldset>
-    
     <%= f.hidden_field :state, value: nil %>
     <%= f.hidden_field :user_id, value: current_user.id %>
-
-    <%= f.submit "Create Request", class: "form-control" %>
-
+    
+    <p>
+        <%= f.submit "Create Request", class: "form-control", id: "create_request"%>
+    </p>
+    
 <% end %>
-</div>
 </div>

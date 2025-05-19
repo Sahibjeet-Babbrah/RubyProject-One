@@ -15,6 +15,14 @@
  */
 @import "bootstrap";
 
+fieldset {
+    // background-color: #d1c8c8;
+    padding: 20px;
+    border: 1px solid;
+    border-color: #111;
+    border-radius: 10px;
+}
+
 table,
 td,
 th {
@@ -32,6 +40,10 @@ table {
     transition: 0.3s;
     width: 400px;
     flex: 0 1 calc(25% - 1em);
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: 1%;
+    padding-top: 1%;
 }
 
 .card:hover {
@@ -109,6 +121,7 @@ li a:hover {
 }
 
 .column.side {
+    padding-left: 1%;
     width: 15%;
 }
 
@@ -130,4 +143,41 @@ li a:hover {
     .column.side, .column.middle {
       width: 100%;
     }
+}
+
+#create_request {
+    background-color: #04AA6D;
+    color: whitesmoke;
+    font-weight: 850;
+    text-decoration: none;
+}
+
+#quote_not_selected {
+    color: #aa1704;
+    font-weight: 700;
+    font-size: larger;
+    text-align: end;
+    bottom: 0;
+}
+
+#quote_selected {
+    color: #04AA6D;
+    font-weight: 700;
+    font-size: larger;
+    text-align: end;
+    bottom: 0;
+}
+
+#select_quote {
+    background-color: #04AA6D;
+    color: whitesmoke;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#declined_quote {
+    background-color: #aa1704;
+    color: whitesmoke;
+    font-weight: 600;
+    text-decoration: none;
 }

@@ -7,7 +7,7 @@ class UserSessionsController < ApplicationController
   # User the created username and password to login the user
   def create
     # Finds the user by the username entered
-    @user = User.find_by(name: params[:user][:name])
+    @user = User.find_by(email: params[:user][:email])
 
     # User.authenticate verifies the data entered, method provided by has_secure_password
     if @user && @user.authenticate(params[:user][:password])

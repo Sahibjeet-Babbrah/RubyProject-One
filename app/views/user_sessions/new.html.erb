@@ -1,16 +1,41 @@
 <!-- app/views/user_sessions/new.html.erb -->
-<h1>Login Page</h1>
+<div class="column side">
+        <h2 style="position: sticky; top: 5%; padding-left: 8%;">Login Page</h2>
+</div>
+
+<div class="column middle">
 
 <%= form_with model: @user, url: user_sessions_path do |f| %>
     <div>
-        <%= f.label :name %> <br>
-        <%= f.text_field :name %>
+        <% invalid = @user.errors.include?(:email) %>
+
+        <%= f.label :email %>
+        <%= f.text_field :email, class: "form-control #{'is-invalid' if invalid}" %>
+        <% if invalid %>
+          <div class="invalid-feedback d-block">
+              <% @user.errors.full_messages_for(:email).each do |error_message| %>
+                  <%= error_message %>
+              <% end %>
+          </div>
+        <% end %>
     </div>
+
     <div>
-        <%= f.label :password %> <br>
-        <%= f.password_field :password %>
+        <% invalid = @user.errors.include?(:password) %>
+
+        <%= f.label :password %>
+        <%= f.password_field :password, class: "form-control #{'is-invalid' if invalid}" %>
+        <% if invalid %>
+          <div class="invalid-feedback d-block">
+              <% @user.errors.full_messages_for(:password).each do |error_message| %>
+                  <%= error_message %>
+              <% end %>
+          </div>
+        <% end %>
     </div>
+    <br>
     <p>
-        <%= f.submit 'Login' %>
+        <%= f.submit "Login", id: 'create_request', class: "form-control" %>
     </p>
 <% end %>
+</div>

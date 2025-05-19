@@ -26,7 +26,7 @@
                 <td><%= data.shipto_street_address %></td>
                 <td><%= data.pickup_date %></td>
                 <td><%= data.delivery_date %></td>
-                <td><%= link_to "View Quotes", edit_rfq_path(data) %></td>
+                <td><%= link_to "View Quotes", edit_rfq_path(data), class: "form-control", id: "select_quote" %></td>
             </tr>
         <% end %>
         </table>
@@ -54,9 +54,9 @@
                             <%= link_to "Under Consideration", edit_quote_path(data) %>
                         <% else %>
                             <% if data[:state] %>
-                                <%= link_to "Quote Selected", edit_quote_path(data) %>
+                                <%= link_to "Quote Selected", edit_quote_path(data), class: "form-control", id: "quote_selected" %>
                             <% else %>
-                                <%= link_to "Quote Declined", edit_quote_path(data) %>
+                                <%= link_to "Quote Declined", edit_quote_path(data), class: "form-control", id: "declined_quote" %>
                             <% end %>
                         <% end %>
                     <% end %>

@@ -1,28 +1,238 @@
 <!-- app/views/users/new.html.erb -->
+<div class="column side">
+        <h2 style="position: sticky; top: 5%; padding-left: 8%;">Request Quotes</h2>
+</div>
+
+<div class="column middle">
 <h1>Users#new</h1>
 <%= form_with model: @user do |f| %>
-  <% if @user.errors.any? %>
+  <fieldset>
+    <!-- <% if @user.errors.any? %>
+      <div>
+        <a>
+          <% @user.errors.full_messages.each do |message| %>
+            <a><%= message %></a> <br>
+          <% end %>
+        </a>
+      </div>
+    <% end %> -->
+
+    <h2>Login Information</h2>
+    
     <div>
-      <ul>
-        <% @user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+      <% invalid = @user.errors.include?(:name) %>
+
+      <%= f.label :name %>
+      <%= f.text_field :name, class: "form-control #{'is-invalid' if invalid}" %>
+      <% if invalid %>
+          <div class="invalid-feedback d-block">
+              <% @user.errors.full_messages_for(:name).each do |error_message| %>
+                  <%= error_message %>
+              <% end %>
+          </div>
+      <% end %>
     </div>
-  <% end %>
-  <div>
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div>
-    <%= f.label :password %><br>
-    <%= f.password_field :password %>
-  </div>
-  <div>
-    <%= f.label :password_confirmation %><br>
-    <%= f.password_field :password_confirmation %>
-  </div>
+
+    <div>
+      <% invalid = @user.errors.include?(:email) %>
+    
+      <%= f.label :email %>
+      <%= f.text_field :email, class: "form-control #{'is-invalid' if invalid}" %>
+      <% if invalid %>
+          <div class="invalid-feedback d-block">
+              <% @user.errors.full_messages_for(:email).each do |error_message| %>
+                  <%= error_message %>
+              <% end %>
+          </div>
+      <% end %>
+    </div>
+    <div>
+      <% invalid = @user.errors.include?(:password) %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: "form-control #{'is-invalid' if invalid}" %>
+      <% if invalid %>
+          <div class="invalid-feedback d-block">
+              <% @user.errors.full_messages_for(:password).each do |error_message| %>
+                  <%= error_message %>
+              <% end %>
+          </div>
+      <% end %>
+    </div>
+    <div>
+      <% invalid = @user.errors.include?(:password_confirmation) %>
+
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, class: "form-control #{'is-invalid' if invalid}" %>
+      <% if invalid %>
+          <div class="invalid-feedback d-block">
+              <% @user.errors.full_messages_for(:password_confirmation).each do |error_message| %>
+                  <%= error_message %>
+              <% end %>
+          </div>
+      <% end %>
+    </div>
+  </fieldset>
+
+  <br>
+
+  <fieldset>
+    <h2>Account Information</h2>
+
+    <div>
+      <% invalid = @user.errors.include?(:street_address) %>
+
+      <%= f.label :street_address %>
+      <%= f.text_field :street_address, class: "form-control #{'is-invalid' if invalid}" %>
+      <% if invalid %>
+          <div class="invalid-feedback d-block">
+              <% @user.errors.full_messages_for(:street_address).each do |error_message| %>
+                  <%= error_message %>
+              <% end %>
+          </div>
+      <% end %>
+    </div>
+
+    <div>
+      <% invalid = @user.errors.include?(:city_area) %>
+
+      <%= f.label :city_area %>
+      <%= f.text_field :city_area, class: "form-control #{'is-invalid' if invalid}" %>
+      <% if invalid %>
+          <div class="invalid-feedback d-block">
+              <% @user.errors.full_messages_for(:city_area).each do |error_message| %>
+                  <%= error_message %>
+              <% end %>
+          </div>
+      <% end %>
+    </div>
+
+    <div>
+      <% invalid = @user.errors.include?(:city) %>
+
+      <%= f.label :city %>
+      <%= f.text_field :city, class: "form-control #{'is-invalid' if invalid}" %>
+      <% if invalid %>
+          <div class="invalid-feedback d-block">
+              <% @user.errors.full_messages_for(:city).each do |error_message| %>
+                  <%= error_message %>
+              <% end %>
+          </div>
+      <% end %>
+    </div>
+
+    <div>
+      <% invalid = @user.errors.include?(:county) %>
+
+      <%= f.label :county %>
+      <%= f.text_field :county, class: "form-control #{'is-invalid' if invalid}" %>
+      <% if invalid %>
+          <div class="invalid-feedback d-block">
+              <% @user.errors.full_messages_for(:county).each do |error_message| %>
+                  <%= error_message %>
+              <% end %>
+          </div>
+      <% end %>
+    </div>
+
+    <div>
+      <% invalid = @user.errors.include?(:state) %>
+
+      <%= f.label :state, "State/Province" %>
+      <%= f.text_field :state, class: "form-control #{'is-invalid' if invalid}" %>
+      <% if invalid %>
+        <div class="invalid-feedback d-block">
+          <% @user.errors.full_messages_for(:postal).each do |error_message| %>
+            <%= error_message %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div>
+      <% invalid = @user.errors.include?(:postal) %>
+
+      <%= f.label :postal %>
+      <%= f.text_field :postal, class: "form-control #{'is-invalid' if invalid}" %>
+      <% if invalid %>
+          <div class="invalid-feedback d-block">
+              <% @user.errors.full_messages_for(:postal).each do |error_message| %>
+                  <%= error_message %>
+              <% end %>
+          </div>
+      <% end %>
+    </div>
+
+    <div>
+      <% invalid = @user.errors.include?(:country) %>
+
+      <%= f.label :country %>
+      <%= f.text_field :country, class: "form-control #{'is-invalid' if invalid}" %>
+      <% if invalid %>
+          <div class="invalid-feedback d-block">
+              <% @user.errors.full_messages_for(:country).each do |error_message| %>
+                  <%= error_message %>
+              <% end %>
+          </div>
+      <% end %>
+    </div>
+
+  </fieldset>
+
+  <br>
+
+  <fieldset>
+    <div>
+      <h2>Types of Trucks</h2> <br>
+      <h4>If you have trucks, check any you have</h4>
+      <div class="cards2column">
+        <div>
+          <%= f.label :flatbed_trucks %>
+          <%= f.check_box :flatbed_trucks %>
+        </div>
+        <div>
+          <%= f.label :refrigerated_trucks %>
+          <%= f.check_box :refrigerated_trucks %>
+        </div>
+        <div>
+          <%= f.label :straight_trucks %>
+          <%= f.check_box :straight_trucks %>
+        </div>
+        <div>
+          <%= f.label :tanker_trucks %>
+          <%= f.check_box :tanker_trucks %>
+        </div>
+        <div>
+          <%= f.label :jumbo_trailer_trucks %>
+          <%= f.check_box :jumbo_trailer_trucks %>
+        </div>
+        <div>
+          <%= f.label :semi_trailer_trucks %>
+          <%= f.check_box :semi_trailer_trucks %>
+        </div>
+        <div>
+          <%= f.label :dump_trucks %>
+          <%= f.check_box :dump_trucks %>
+        </div>
+        <div>
+          <%= f.label :box_trucks %>
+          <%= f.check_box :box_trucks %>
+        </div>
+        <div>
+          <%= f.label :tail_lift_trucks %>
+          <%= f.check_box :tail_lift_trucks %>
+        </div>
+      </div>
+    </div>
+
+    
+
+  </fieldset>
+  
+  <br>
+
   <p>
-    <%= f.submit %>
+    <%= f.submit "Create User", id: 'create_request', class: "form-control" %>
   </p>
 <% end %>
+</div>

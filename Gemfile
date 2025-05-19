@@ -72,3 +72,5 @@ gem "sassc-rails"
 
 gem "cocoon"
 gem "rondo_form", "~> 0.2.6"
+
+gem 'devise'

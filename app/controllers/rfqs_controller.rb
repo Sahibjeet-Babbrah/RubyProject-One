@@ -2,12 +2,18 @@ class RfqsController < ApplicationController
   before_action :set_fields, only: %i[new create]
 
   def new
+    if current_user.blank?
+      render plain: '401 Unauthorized', status: :unauthorized
+    end
     @rfq = Rfq.new#; @rfq.items.build;
     # 2.times {@rfq.items.build}
     @user = User.new
   end
 
   def create
+    if current_user.blank?
+      render plain: '401 Unauthorized', status: :unauthorized
+    end
     @rfq = Rfq.create(rfq_params)
 
     if @rfq.valid?
@@ -21,11 +27,17 @@ class RfqsController < ApplicationController
   end
 
   def edit
+    if current_user.blank?
+      render plain: '401 Unauthorized', status: :unauthorized
+    end
     @rfq = Rfq.find(params[:id])
     @quotes = @rfq.quotes
   end
 
   def update
+    if current_user.blank?
+      render plain: '401 Unauthorized', status: :unauthorized
+    end
     @rfq = Rfq.find(params[:id])
   end
 

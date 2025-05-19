@@ -1,18 +1,33 @@
 class QuotesController < ApplicationController
 
   def edit
+    if current_user.blank?
+      render plain: '401 Unauthorized', status: :unauthorized
+    end
     @quote = Quote.find(params[:id])
   end
   
+  def index
+    if current_user.blank?
+      render plain: '401 Unauthorized', status: :unauthorized
+    end
+  end
+
   def select
     
   end
 
   def view
+    if current_user.blank?
+      render plain: '401 Unauthorized', status: :unauthorized
+    end
     @rfq = Rfq.find(params[:id])
   end
 
   def update
+    if current_user.blank?
+      render plain: '401 Unauthorized', status: :unauthorized
+    end
     @quote = Quote.find(params[:id])
     if @quote.update(quote_params)
       # Quote is being submitted by the user

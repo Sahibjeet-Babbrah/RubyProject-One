@@ -1,7 +1,8 @@
-<h1>View Quotes</h1>
 
 <div class="row">
-    <div class="column side"></div>
+    <div class="column side">
+        <h1>View Quotes</h1>
+    </div>
     <div class="column middle">
         <h3>Quotes</h3>
         <div class="cards">
@@ -19,12 +20,18 @@
 
                     <div class="center-screen">
                         <% if @rfq.state != true %>
-                            <%= link_to "Select Quote", edit_rfq_quote_path(@rfq, quote) %>
+                            <%# <button class="form-control"> %>
+                                <%= link_to "Select Quote", edit_rfq_quote_path(@rfq, quote), class: "form-control", id: "select_quote" %>
+                            <%# </button> %>
                         <% else %>
                             <% if quote.state != true %>
-                                Quote not selected
+                                <p id="quote_not_selected">
+                                    Quote not selected
+                                </p>
                             <% else %>
-                                Quote selected
+                                <p id="quote_selected">
+                                    Quote selected
+                                </p>
                             <% end %>
                         <% end %>
                     </div>

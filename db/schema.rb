@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_26_152421) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_19_175659) do
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -69,16 +69,68 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_26_152421) do
     t.index ["user_id"], name: "index_rfqs_on_user_id"
   end
 
+  create_table "truck", force: :cascade do |t|
+    t.boolean "flatbed_trucks"
+    t.boolean "refrigerated_trucks"
+    t.boolean "straight_trucks"
+    t.boolean "tanker_trucks"
+    t.boolean "jumbo_trailer_trucks"
+    t.boolean "semi_trailer_trucks"
+    t.boolean "dump_trucks"
+    t.boolean "box_trucks"
+    t.boolean "tail_lift_trucks"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_truck_on_user_id"
+  end
+
+  create_table "trucks", force: :cascade do |t|
+    t.boolean "flatbed_trucks"
+    t.boolean "refrigerated_trucks"
+    t.boolean "straight_trucks"
+    t.boolean "tanker_trucks"
+    t.boolean "jumbo_trailer_trucks"
+    t.boolean "semi_trailer_trucks"
+    t.boolean "dump_trucks"
+    t.boolean "box_trucks"
+    t.boolean "tail_lift_trucks"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_trucks_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
     t.string "password_confirmation"
     t.string "password_digest"
+    t.string "email"
+    t.string "street_address"
+    t.string "city_area"
+    t.string "city"
+    t.string "county"
+    t.string "postal"
+    t.string "country"
+    t.string "truck_types"
+    t.string "state"
+    t.boolean "flatbed_trucks"
+    t.boolean "refrigerated_trucks"
+    t.boolean "straight_trucks"
+    t.boolean "tanker_trucks"
+    t.boolean "jumbo_trailer_trucks"
+    t.boolean "semi_trailer_trucks"
+    t.boolean "dump_trucks"
+    t.boolean "box_trucks"
+    t.boolean "tail_lift_trucks"
   end
 
   add_foreign_key "items", "rfqs"
   add_foreign_key "quotes", "rfqs"
   add_foreign_key "quotes", "users"
   add_foreign_key "rfqs", "users"
+  add_foreign_key "truck", "users"
+  add_foreign_key "trucks", "users"
 end
