@@ -24,7 +24,8 @@
         <% invalid = @user.errors.include?(:password) %>
 
         <%= f.label :password %>
-        <%= f.password_field :password, class: "form-control #{'is-invalid' if invalid}" %>
+        <%= f.password_field :password, class: "form-control #{'is-invalid' if flash[:alert]} p-2 my-2 unhide", "data-target": "password-toggle.unhide" %>
+        <a data-action="click->password-toggle#password" class="password-field-icon-1 far fa-eye-slash"></a>
         <% if invalid %>
           <div class="invalid-feedback d-block">
               <% @user.errors.full_messages_for(:password).each do |error_message| %>
@@ -33,6 +34,13 @@
           </div>
         <% end %>
     </div>
+
+    <div>
+        <% if flash[:alert] %>
+            <p class="alert"><%= flash[:alert] %></p>
+        <% end %>
+    </div>
+
     <br>
     <p>
         <%= f.submit "Login", id: 'create_request', class: "form-control" %>

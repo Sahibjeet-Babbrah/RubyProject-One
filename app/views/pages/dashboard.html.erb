@@ -17,6 +17,7 @@
                 <th>Dropoff Street Address</th>
                 <th>Pickup Date</th>
                 <th>Delivery Date</th>
+                <th>Status</th>
                 <th>View Quotes</th>
             </tr>
         <% @rfq_data.each do |data| %>
@@ -26,6 +27,13 @@
                 <td><%= data.shipto_street_address %></td>
                 <td><%= data.pickup_date %></td>
                 <td><%= data.delivery_date %></td>
+                <td>
+                    <% if data.state %>
+                        False
+                    <% else %>
+                        Selected
+                    <% end %>
+                </td>
                 <td><%= link_to "View Quotes", edit_rfq_path(data), class: "form-control", id: "select_quote" %></td>
             </tr>
         <% end %>
@@ -36,6 +44,7 @@
         <h3>Quote Requests</h3>
         <table style="width: 100%;">
             <tr>
+                <th>RFQ ID</th>
                 <th>Requestee Name</th>
                 <th>Pickup Street Address</th>
                 <th>Dropoff Street Address</th>
@@ -43,6 +52,7 @@
             </tr>
         <% @quote_request_data.each do |data| %>
             <tr>
+                <td><%= data.rfq_id %></td>
                 <td><%= User.find(Rfq.find(data.rfq_id).user_id).name %></td>
                 <td><%= Rfq.find(data.rfq_id).pickup_street_address %></td>
                 <td><%= Rfq.find(data.rfq_id).shipto_street_address %></td>

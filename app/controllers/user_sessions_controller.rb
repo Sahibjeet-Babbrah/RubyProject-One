@@ -16,7 +16,7 @@ class UserSessionsController < ApplicationController
       session[:user_id] = @user.id
       redirect_to pages_dashboard_path
     else
-      flash[:alert] = "Login Failed"
+      flash[:alert] = "Login Failed, Email or Password is Incorrect"
       redirect_to new_user_session_path
     end
   end

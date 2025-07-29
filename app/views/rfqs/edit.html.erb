@@ -5,90 +5,177 @@
     </div>
     <div class="column middle">
         <h3>Quotes</h3>
-        <div class="cards">
-            <% @quotes.each do |quote| %>
-                <div class="card">
-                    <%= User.find(quote.user_id).name %> <br>
-                    <% if quote.quote_submitted == nil || quote.quote_submitted == false %>
-                        No Quote Submitted <br>
-                    <% else %> 
-                        Cost: <%= quote.cost %> <br>
-                        <% if quote.special_conditions != "" %>
-                            Special Conditions: <%= quote.special_conditions %>
-                        <% end %>
-                    <% end %>
 
-                    <div class="center-screen">
-                        <% if @rfq.state != true %>
-                            <%# <button class="form-control"> %>
-                                <%= link_to "Select Quote", edit_rfq_quote_path(@rfq, quote), class: "form-control", id: "select_quote" %>
-                            <%# </button> %>
+        <table style="width: 100%;">
+            <tr>
+                <th>Quote Submitter</th>
+                <th>Quote</th>
+                <th>Special Conditions</th>
+                <th>Selection</th>
+            </tr>
+            <% @quotes.each do |quote| %>
+                <tr>
+                    <td><%= User.find(quote.user_id).name %></td>
+                    <td>
+                        <% if quote.quote_submitted == nil || quote.quote_submitted == false %>
+                            No Quote Submitted
                         <% else %>
-                            <% if quote.state != true %>
-                                <p id="quote_not_selected">
-                                    Quote not selected
-                                </p>
+                            <%= quote.cost %> <%= quote.currency %>
+                        <% end %>
+                    </td>
+                    <td>
+                        <%= quote.special_conditions %>
+                    </td>
+                    <td>
+                        <% if @rfq.state != true %>
+                            <% if quote.quote_submitted != true %>
+                                <button class="form-control" disabled="true">Unable To Select Quote</button>
                             <% else %>
-                                <p id="quote_selected">
-                                    Quote selected
-                                </p>
+                                <%= link_to "Select Quote", edit_rfq_quote_path(@rfq, quote), class: "form-control", id: "select_quote" %>
                             <% end %>
                         <% end %>
-                    </div>
-                </div>
+                    </td>
+                </tr>
             <% end %>
-        </div>
+        </table>
+
+        <%# <div class="cards"> %>
+            <%# <% @quotes.each do |quote| %>
+                <%# <div class="card"> %>
+                    <%# <%= User.find(quote.user_id).name %>
+                    <%# <% if quote.quote_submitted == nil || quote.quote_submitted == false %>
+                        <%# No Quote Submitted <br> %>
+                    <%# <% else %> 
+                        <%# Cost: <%= quote.cost <%= quote.currency %>
+                        <%# <% if quote.special_conditions != "" %>
+                            <%# Special Conditions: <%= quote.special_conditions %>
+                        <%# <% end %>
+                    <%# <% end %>
+
+                    <%# <div class="center-screen"> %>
+                        <%# <% if @rfq.state != true %>
+                                <%# <% if quote.quote_submitted != true %>
+                                    <%# <button class="form-control" disabled="true">Unable To Select Quote</button> %>
+                                <%# <% else %>
+                                    <%# <%= link_to "Select Quote", edit_rfq_quote_path(@rfq, quote), class: "form-control", id: "select_quote" %>
+                                <%# <% end %>
+                        <%# <% else %>
+                            <%# <% if quote.state != true %>
+                                <%# <p id="quote_not_selected"> %>
+                                    <%# Quote not selected %>
+                                <%# </p> %>
+                            <%# <% else
+                                <%# <p id="quote_selected"> %>
+                                    <%# Quote selected %>
+                                <%# </p> %>
+                            <%# <% end %>
+                        <%# <% end %>
+                    <%# </div> %>
+                <%# </div> %>
+            <%# <% end %> 
+        <%# </div> %>
 
         <br>
         
         <h2>Request For Quote Information</h2>
 
         <div class="cards2column">
-            <div class="card">
-                <h3>Pickup Information</h3>
-                Name: <%= @rfq.pickup_name %> <br>
-                Street Address: <%= @rfq.pickup_street_address %> <br>
-                City Area: <%= @rfq.pickup_city_area %> <br>
-                City: <%= @rfq.pickup_city %> <br>
-                County: <%= @rfq.pickup_county %> <br>
-                State/Province: <%= @rfq.pickup_state %> <br>
-                Country: <%= @rfq.pickup_country %> <br>
-                ZIP/Postal: <%= @rfq.pickup_postal %> <br>
-                Date: <%= @rfq.pickup_date %> 
-            </div>
+            
+            <table width="80%">
+                <tr><th>Pickup Information</th></tr>
+                <tr><td>Name</td><td><%= @rfq.pickup_name %></td></tr>
+                <tr><td>Street Address</td><td><%= @rfq.pickup_street_address %></td> </tr>
+                <tr> <td>City Area</td><td><%= @rfq.pickup_city_area %></td> </tr>
+                <tr> <td>City</td><td><%= @rfq.pickup_city %></td> </tr>
+                <tr> <td>County</td><td><%= @rfq.pickup_county %></td> </tr>
+                <tr> <td>State/Province</td><td><%= @rfq.pickup_state %></td> </tr>
+                <tr> <td>Country</td><td><%= @rfq.pickup_country %></td> </tr>
+                <tr> <td>ZIP/Postal</td><td><%= @rfq.pickup_postal %></td> </tr>
+                <tr> <td>Date</td><td><%= @rfq.pickup_date %></td> </tr>
+            </table>
 
-            <div class="card">
-                <h3>Dropoff Information</h3>
-                Name: <%= @rfq.shipto_name %> <br>
-                Street Address: <%= @rfq.shipto_street_address %> <br>
-                City Area: <%= @rfq.shipto_city_area %> <br>
-                City: <%= @rfq.shipto_city %> <br>
-                County: <%= @rfq.shipto_county %> <br>
-                State/Province: <%= @rfq.shipto_state %> <br>
-                Country: <%= @rfq.shipto_country %> <br>
-                ZIP/Postal<%= @rfq.shipto_postal %> <br>
-                Date: <%= @rfq.delivery_date %> <br>
-            </div>
+            <table width="80%">
+                <tr><th>Dropoff Information</th><th></th></tr>
+                <tr><td>Name</td><td><%= @rfq.shipto_name %></td></tr>
+                <tr><td>Street Address</td><td><%= @rfq.shipto_street_address %></td> </tr>
+                <tr> <td>City Area</td><td><%= @rfq.shipto_city_area %></td> </tr>
+                <tr> <td>City</td><td><%= @rfq.shipto_city %></td> </tr>
+                <tr> <td>County</td><td><%= @rfq.shipto_county %></td> </tr>
+                <tr> <td>State/Province</td><td><%= @rfq.shipto_state %></td> </tr>
+                <tr> <td>Country</td><td><%= @rfq.shipto_country %></td> </tr>
+                <tr> <td>ZIP/Postal</td><td><%= @rfq.shipto_postal %></td> </tr>
+                <tr> <td>Date</td><td><%= @rfq.delivery_date %></td> </tr>
+            </table>
+
+            <%# <div class="card"> %>
+                <%# <h3>Pickup Information</h3> %>
+                <%# Name: <%= @rfq.pickup_name %>
+                <%# Street Address: <%= @rfq.pickup_street_address %>
+                <%# City Area: <%= @rfq.pickup_city_area %>
+                <%# City: <%= @rfq.pickup_city %>
+                <%# County: <%= @rfq.pickup_county %>
+                <%# State/Province: <%= @rfq.pickup_state %>
+                <%# Country: <%= @rfq.pickup_country %>
+                <%# ZIP/Postal: <%= @rfq.pickup_postal %>
+                <%# Date: <%= @rfq.pickup_date %> 
+            <%# </div> %>
+
+            <%# <div class="card"> %>
+                <%# <h3>Dropoff Information</h3> %>
+                <%# Name: <%= @rfq.shipto_name %>
+                <%# Street Address: <%= @rfq.shipto_street_address %>
+                <%# City Area: <%= @rfq.shipto_city_area %>
+                <%# City: <%= @rfq.shipto_city %>
+                <%# County: <%= @rfq.shipto_county %>
+                <%# State/Province: <%= @rfq.shipto_state %>
+                <%# Country: <%= @rfq.shipto_country %>
+                <%# ZIP/Postal<%= @rfq.shipto_postal %>
+                <%# Date: <%= @rfq.delivery_date %>
+            <%# </div> %>
         </div>
 
         <br>
         <br>
 
         <h3>Items</h3>
-        <div class="cards">
+
+        <table width="100%">
+            <tr>
+                <th>Name</th>
+                <th>Length (m)</th>
+                <th>Width (m)</th>
+                <th>Height (m)</th>
+                <th>Weight (kg)</th>
+                <th>Description</th>
+                <th>Special Conditions</th>
+            </tr>
             <% @rfq.items.each do |item| %>
-                <div class="card">
-                    <fieldset>
-                        Name: <%= item.name %> <br>
-                        Description: <%= item.description %> <br>
-                        Length (m): <%= item.length %> <br>
-                        Width (m): <%= item.width %> <br>
-                        Height (m): <%= item.height %> <br>
-                        Widght (kg): <%= item.weight %> <br>
-                    </fieldset>
-                </div>
+                <tr>
+                    <td><%= item.name %></td>
+                    <td><%= item.length %></td>
+                    <td><%= item.width %></td>
+                    <td><%= item.height %></td>
+                    <td><%= item.weight %></td>
+                    <td><%= item.description %></td>
+                    <td><%= item.special_conditions %></td>
+                </tr>
             <% end %>
-        </div>
+        </table>
+
+        <%# <div class="cards"> %>
+            <%# <% @rfq.items.each do |item| %>
+                <%# <div class="card"> %>
+                    <%# <fieldset> %>
+                        <%# Name: <%= item.name %>
+                        <%# Description: <%= item.description %>
+                        <%# Length (m): <%= item.length %>
+                        <%# Width (m): <%= item.width %>
+                        <%# Height (m): <%= item.height %>
+                        <%# Widght (kg): <%= item.weight %>
+                    <%# </fieldset> %>
+                <%# </div> %>
+            <%# <% end %>
+        <%# </div> %>
     </div>
 </div>
 

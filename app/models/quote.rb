@@ -8,4 +8,5 @@ class Quote < ApplicationRecord
     delegate :length=, to: :rfq, prefix: true
 
     validates :cost, numericality: {greater_than_or_equal_to: 0.1, only_float: true}, on: :update
+    validates_presence_of :currency
 end

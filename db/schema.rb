@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_19_175659) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_24_021436) do
+  create_table "currencies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -34,6 +40,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_19_175659) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "quote_submitted"
+    t.string "currency"
     t.index ["rfq_id"], name: "index_quotes_on_rfq_id"
     t.index ["user_id"], name: "index_quotes_on_user_id"
   end

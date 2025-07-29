@@ -40,8 +40,11 @@
 
                     <% invalid = @quote.errors.include?(:cost) %>
 
-                    <%= f.label :cost, "Cost"%>
-                    <%= f.number_field :cost, class: "form-control #{'is-invalid' if invalid}", step: 0.01 %>
+                    <h3><%= f.label :cost, "Cost"%></h3>
+                    <div class="cards2column" style="width: 50%">
+                        <%= f.number_field :cost, class: "form-control #{'is-invalid' if invalid}", step: 0.01 %>
+                        <%= f.collection_select :currency, Currency.all, :name, :name, class: "form-control #{'is-invalid' if invalid}"%>
+                    </div>
                     <% if invalid %>
                         <div class="invalid-feedback d-block">
                             <% @quote.errors.full_messages_for(:cost).each do |error_message| %>
@@ -50,14 +53,18 @@
                         </div>
                     <% end %>
 
-                    <%= f.label :special_conditions, "Additional Information (Optional)" %>
+                    <br>
+
+                    <h4>
+                        <%= f.label :special_conditions, "Additional Information (Optional)" %>
+                    </h4>
                     <%= f.text_area :special_conditions, size: '100x10', class: 'form-control' %>
 
                     <% f.hidden_field :state, value: nil %>
 
-                    <%= @quote.user_id %>
+                    <%# <%= @quote.user_id %>
 
-                    <%= f.submit "Send Quote", class: 'form-control' %>
+                    <%= f.submit "Send Quote", class: 'form-control', id: 'select_quote' %>
 
                 <% end %>
             <% end %>
@@ -101,45 +108,96 @@
     <div class="column middle">
         <h2>Request Details</h2>
         <div class="cards2column">
-            <div class="card">
-                <h3>Pickup Information</h3>
-                Name: <%= rfq_information.pickup_name %> <br>
-                Street: <%= rfq_information.pickup_street_address %> <br>
-                City Area: <%= rfq_information.pickup_city_area %> <br>
-                City: <%= rfq_information.pickup_city %> <br>
-                County: <%= rfq_information.pickup_county %> <br>
-                Postal: <%= rfq_information.pickup_postal %> <br>
-                Country: <%= rfq_information.pickup_country %> <br>
-                Pickup Date: <%= rfq_information.pickup_date %> <br>
-            </div>
 
-            <div class="card">
-                <h3>Dropoff Information</h3>
-                Name: <%= rfq_information.shipto_name %> <br>
-                Street: <%= rfq_information.shipto_street_address %> <br>
-                City Area: <%= rfq_information.shipto_city_area %> <br>
-                City: <%= rfq_information.shipto_city %> <br>
-                County: <%= rfq_information.shipto_county %> <br>
-                Postal: <%= rfq_information.shipto_postal %> <br>
-                Country: <%= rfq_information.shipto_country %> <br>
-                Pickup Date: <%= rfq_information.delivery_date %> <br>
-            </div>
+            <table width="80%">
+                <tr><th>Pickup Information</th></tr>
+                <tr><td>Name</td><td><%= rfq_information.pickup_name %></td></tr>
+                <tr><td>Street Address</td><td><%= rfq_information.pickup_street_address %></td> </tr>
+                <tr> <td>City Area</td><td><%= rfq_information.pickup_city_area %></td> </tr>
+                <tr> <td>City</td><td><%= rfq_information.pickup_city %></td> </tr>
+                <tr> <td>County</td><td><%= rfq_information.pickup_county %></td> </tr>
+                <tr> <td>State/Province</td><td><%= rfq_information.pickup_state %></td> </tr>
+                <tr> <td>Country</td><td><%= rfq_information.pickup_country %></td> </tr>
+                <tr> <td>ZIP/Postal</td><td><%= rfq_information.pickup_postal %></td> </tr>
+                <tr> <td>Date</td><td><%= rfq_information.pickup_date %></td> </tr>
+            </table>
+
+            <table width="80%">
+                <tr><th>Dropoff Information</th><th></th></tr>
+                <tr><td>Name</td><td><%= rfq_information.shipto_name %></td></tr>
+                <tr><td>Street Address</td><td><%= rfq_information.shipto_street_address %></td> </tr>
+                <tr> <td>City Area</td><td><%= rfq_information.shipto_city_area %></td> </tr>
+                <tr> <td>City</td><td><%= rfq_information.shipto_city %></td> </tr>
+                <tr> <td>County</td><td><%= rfq_information.shipto_county %></td> </tr>
+                <tr> <td>State/Province</td><td><%= rfq_information.shipto_state %></td> </tr>
+                <tr> <td>Country</td><td><%= rfq_information.shipto_country %></td> </tr>
+                <tr> <td>ZIP/Postal</td><td><%= rfq_information.shipto_postal %></td> </tr>
+                <tr> <td>Date</td><td><%= rfq_information.delivery_date %></td> </tr>
+            </table>
+
+            <%# <div class="card"> %>
+                <%# <h3>Pickup Information</h3> %>
+                <%# Name: <%= rfq_information.pickup_name %>
+                <%# Street: <%= rfq_information.pickup_street_address %>
+                <%# City Area: <%= rfq_information.pickup_city_area %>
+                <%# City: <%= rfq_information.pickup_city %>
+                <%# County: <%= rfq_information.pickup_county %>
+                <%# Postal: <%= rfq_information.pickup_postal %>
+                <%# Country: <%= rfq_information.pickup_country %>
+                <%# Pickup Date: <%= rfq_information.pickup_date %>
+            <%# </div> %>
+
+            <%# <div class="card"> %>
+                <%# <h3>Dropoff Information</h3> %>
+                <%# Name: <%= rfq_information.shipto_name %>
+                <%# Street: <%= rfq_information.shipto_street_address %>
+                <%# City Area: <%= rfq_information.shipto_city_area %>
+                <%# City: <%= rfq_information.shipto_city %>
+                <%# County: <%= rfq_information.shipto_county %>
+                <%# Postal: <%= rfq_information.shipto_postal %>
+                <%# Country: <%= rfq_information.shipto_country %>
+                <%# Pickup Date: <%= rfq_information.delivery_date %>
+            <%# </div> %>
         </div>
 
         <br>
 
         <h3>Items: </h3>
-        <div class="cards">
+
+        <table width="100%">
+            <tr>
+                <th>Name</th>
+                <th>Length (m)</th>
+                <th>Width (m)</th>
+                <th>Height (m)</th>
+                <th>Weight (kg)</th>
+                <th>Description</th>
+                <th>Special Conditions</th>
+            </tr>
             <% rfq_information.items.each do |item| %>
-                <div class="card">
-                    Name: <%= item.name %> <br>
-                    Description: <%= item.description %> <br>
-                    Length (m): <%= item.length %> <br>
-                    Width (m): <%= item.width %> <br>
-                    Weight (kg): <%= item.weight %> <br>
-                    Special Conditions: <%= item.special_conditions %> <br>
-                </div>
+                <tr>
+                    <td><%= item.name %></td>
+                    <td><%= item.length %></td>
+                    <td><%= item.width %></td>
+                    <td><%= item.height %></td>
+                    <td><%= item.weight %></td>
+                    <td><%= item.description %></td>
+                    <td><%= item.special_conditions %></td>
+                </tr>
             <% end %>
-        </div>
+        </table>
+
+        <%# <div class="cards"> %>
+            <%# <% rfq_information.items.each do |item| %>
+                <%# <div class="card"> %>
+                    <%# Name: <%= item.name %>
+                    <%# Description: <%= item.description %>
+                    <%# Length (m): <%= item.length %>
+                    <%# Width (m): <%= item.width %>
+                    <%# Weight (kg): <%= item.weight %>
+                    <%# Special Conditions: <%= item.special_conditions %>
+                <%# </div> %>
+            <%# <% end %>
+        <%# </div> %>
     </div>
 </div>
