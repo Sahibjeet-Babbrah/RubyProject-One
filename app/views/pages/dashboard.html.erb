@@ -58,7 +58,7 @@
                 <td><%= Rfq.find(data.rfq_id).shipto_street_address %></td>
                 <td>
                     <% if !data[:quote_submitted] %>
-                        <%= link_to "Create Quote", edit_quote_path(data) %>
+                        <%= link_to "Create Quote", edit_quote_path(data), class: "form-control", id: "select_quote" %>
                     <% else %>
                         <% if Rfq.find(data.rfq_id).state != true %>
                             <%= link_to "Under Consideration", edit_quote_path(data) %>

@@ -63,7 +63,7 @@ class RfqsController < ApplicationController
                                 :shipto_name, :shipto_street_address, :shipto_city_area, :shipto_city, :shipto_county, :shipto_state, :shipto_postal, :shipto_country,
                                 :pickup_date, :delivery_date, :state, :user_id,
                                 :items_attributes => [:id, :_destroy, :name, :length, :width, :height, :weight, :description, :special_conditions],
-                                :quotes_attributes => [:id, :_destroy, :cost, :special_conditions, :state, :rfq_id, :user_id])
+                                :quotes_attributes => [:id, :_destroy, :cost, :special_conditions, :state, :rfq_id, :user_id, :quote_submitted, :currency])
   end
 
 end
