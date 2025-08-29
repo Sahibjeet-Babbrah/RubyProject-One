@@ -16,89 +16,6 @@
             <h1 style="position: sticky; top: 5%; padding-left: 4%;">Create Quote</h1>
         <% end %>
     </div>
-
-    <div class="column middle">
-        <% if access == true %>
-            <% if @quote[:quote_submitted] %>
-                <h2>Status: 
-                <% if rfq_information.state != true %>
-                    Under Consideration
-                <% else %>
-                    <% if @quote[:state] == true %>
-                        Accepted
-                    <% else %>
-                        Declined
-                    <% end %>
-                <% end %></h2>
-                Cost: <%= @quote[:cost] %> <br>
-                Additional Information: <%= @quote[:special_conditions] %> <br>
-            <% elsif @quote[:state] == false %>
-                Unavailable, requester has already selected another quote
-            <% else %>
-                <h4>Fill out quote information below, details listed below:</h4> <br>
-                <%= form_with model: @quote do |f| %>
-
-                    <% invalid = @quote.errors.include?(:cost) %>
-
-                    <h3><%= f.label :cost, "Cost"%></h3>
-                    <div class="cards2column" style="width: 50%">
-                        <%= f.number_field :cost, class: "form-control #{'is-invalid' if invalid}", step: 0.01 %>
-                        <%= f.collection_select :currency, Currency.all, :name, :name, class: "form-control #{'is-invalid' if invalid}"%>
-                    </div>
-                    <% if invalid %>
-                        <div class="invalid-feedback d-block">
-                            <% @quote.errors.full_messages_for(:cost).each do |error_message| %>
-                                <%= error_message %>
-                            <% end %>
-                        </div>
-                    <% end %>
-
-                    <br>
-
-                    <h4>
-                        <%= f.label :special_conditions, "Additional Information (Optional)" %>
-                    </h4>
-                    <%= f.text_area :special_conditions, size: '100x10', class: 'form-control' %>
-
-                    <% f.hidden_field :state, value: nil %>
-
-                    <%# <%= @quote.user_id %>
-
-                    <%= f.submit "Send Quote", class: 'form-control', id: 'select_quote' %>
-
-                <% end %>
-            <% end %>
-
-            <br>
-            <br>
-        <% else %>
-            <!-- Create the form to select the quote and close the Rfq -->
-            <% if rfq_information.state == true %>
-                <% if @quote.state == true %>
-                    <h3>Quote has been selected.</h3>
-                <% else %>
-                    <h3>Unfortunatly, quote not selected.</h3>
-                <% end %>
-                <h3>Cost: <%= @quote.cost %></h3>
-                <h3>Special Conditions: <%= @quote.special_conditions %></h3>
-            <% else %>
-                <% if @quote.quote_submitted != true %>
-                    <h3>Quote Not Submitted</h3>
-                <% else %>
-                    <h3>Cost: <%= @quote.cost %></h3>
-                    <h3>Special Conditions: <%= @quote.special_conditions %></h3>
-
-                    <%= form_with model: @quote do |f| %>
-                        <%= f.hidden_field :state, value: true %>
-                        <%= f.hidden_field :rfq_state, value: true %>
-                        <!-- https://www.reddit.com/r/rails/comments/4crn5d/is_there_a_way_to_update_the_parent_through_the/ -->
-
-                        <%= f.submit "Send Quote", data: {confirm: 'Are you sure you want to select this quote? (Cannot be undone)'}, class: "form-control" %>
-                    <% end %>
-                <% end %>
-            <% end %>
-        <% end %>
-    </div>
 </div>
 
 <div class="row">
@@ -199,5 +116,95 @@
                 <%# </div> %>
             <%# <% end %>
         <%# </div> %>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="column side">
+    </div>
+
+    <div class="column middle">
+        <hr style="height:2px;border-width:0;color:gray;background-color:gray;"> 
+        <% if access == true %>
+            <% if @quote[:quote_submitted] %>
+                <h2>Status: 
+                <% if rfq_information.state != true %>
+                    Under Consideration
+                <% else %>
+                    <% if @quote[:state] == true %>
+                        Quote Selected
+                    <% else %>
+                        Quote Declined
+                    <% end %>
+                <% end %></h2>
+                Cost: <%= @quote[:cost] %> <br>
+                Additional Information: <%= @quote[:special_conditions] %> <br>
+            <% elsif @quote[:state] == false %>
+                Sorry, the requester has unfortunately selected another quote.
+            <% else %>
+                <h4>Fill out quote information below, details listed below:</h4> <br>
+                <%= form_with model: @quote do |f| %>
+
+                    <% invalid = @quote.errors.include?(:cost) %>
+
+                    <h3><%= f.label :cost, "Cost"%></h3>
+                    <div class="cards2column" style="width: 50%">
+                        <%= f.number_field :cost, class: "form-control #{'is-invalid' if invalid}", step: 0.01 %>
+                        <%= f.collection_select :currency, Currency.all, :name, :name, class: "form-control #{'is-invalid' if invalid}"%>
+                    </div>
+                    <% if invalid %>
+                        <div class="invalid-feedback d-block">
+                            <% @quote.errors.full_messages_for(:cost).each do |error_message| %>
+                                <%= error_message %>
+                            <% end %>
+                        </div>
+                    <% end %>
+
+                    <br>
+
+                    <h4>
+                        <%= f.label :special_conditions, "Additional Information (Optional)" %>
+                    </h4>
+                    <%= f.text_area :special_conditions, size: '100x10', class: 'form-control' %>
+
+                    <% f.hidden_field :state, value: nil %>
+
+                    <%# <%= @quote.user_id %>
+
+                    <%= f.submit "Send Quote", class: 'form-control', id: 'select_quote' %>
+
+                <% end %>
+            <% end %>
+
+            <br>
+            <br>
+        <% else %>
+            <!-- Create the form to select the quote and close the Rfq -->
+            <% if rfq_information.state == true %>
+                <% if @quote.state == true %>
+                    <h3>Thank you for submitting a quote, it has been selected by the requester. Congradulations!</h3>
+                <% else %>
+                    <h3>Thank you for submitting a quote, unfortunately the requester has decided to go with someone else.</h3>
+                <% end %>
+                <h3>Cost: <%= @quote.cost %></h3>
+                <h3>Special Conditions: <%= @quote.special_conditions %></h3>
+            <% else %>
+                <% if @quote.quote_submitted != true %>
+                    <h3>Quote Not Submitted</h3>
+                <% else %>
+                    <h3>Cost: <%= @quote.cost %></h3>
+                    <h3>Special Conditions: <%= @quote.special_conditions %></h3>
+
+                    <%= form_with model: @quote do |f| %>
+                        <%= f.hidden_field :state, value: true %>
+                        <%= f.hidden_field :rfq_state, value: true %>
+                        <!-- https://www.reddit.com/r/rails/comments/4crn5d/is_there_a_way_to_update_the_parent_through_the/ -->
+
+                        <%= f.submit "Send Quote", data: {confirm: 'Are you sure you want to select this quote? (Cannot be undone)'}, class: "form-control" %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% end %>
     </div>
 </div>

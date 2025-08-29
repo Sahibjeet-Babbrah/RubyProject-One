@@ -72,6 +72,8 @@ table {
 .cards2column {
     display: grid;
     grid-template-columns: auto auto;
+    align-items: center;
+    justify-items: center;
     gap: 20px;
 }
 
@@ -178,6 +180,22 @@ li a:hover {
 #declined_quote {
     background-color: #aa1704;
     color: whitesmoke;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#create_quote {
+    background-color: rgb(27, 27, 27);
+    //#cc4506
+    color: whitesmoke;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#consider_quote {
+    background-color: #e4ce06;
+    //#aa9904
+    color: rgb(51, 51, 51);
     font-weight: 600;
     text-decoration: none;
 }

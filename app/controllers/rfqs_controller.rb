@@ -27,7 +27,7 @@ class RfqsController < ApplicationController
   end
 
   def edit
-    if current_user.blank?
+    if current_user.blank? # or current_user.name != User.find(Rfq.find(params[:id]).user_id).name
       render plain: '401 Unauthorized', status: :unauthorized
     end
     @rfq = Rfq.find(params[:id])

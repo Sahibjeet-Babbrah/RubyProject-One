@@ -3,42 +3,8 @@
     <div class="column side">
         <h1>View Quotes</h1>
     </div>
+
     <div class="column middle">
-        <h3>Quotes</h3>
-
-        <table style="width: 100%;">
-            <tr>
-                <th>Quote Submitter</th>
-                <th>Quote</th>
-                <th>Special Conditions</th>
-                <th>Selection</th>
-            </tr>
-            <% @quotes.each do |quote| %>
-                <tr>
-                    <td><%= User.find(quote.user_id).name %></td>
-                    <td>
-                        <% if quote.quote_submitted == nil || quote.quote_submitted == false %>
-                            No Quote Submitted
-                        <% else %>
-                            <%= quote.cost %> <%= quote.currency %>
-                        <% end %>
-                    </td>
-                    <td>
-                        <%= quote.special_conditions %>
-                    </td>
-                    <td>
-                        <% if @rfq.state != true %>
-                            <% if quote.quote_submitted != true %>
-                                <button class="form-control" disabled="true">Unable To Select Quote</button>
-                            <% else %>
-                                <%= link_to "Select Quote", edit_rfq_quote_path(@rfq, quote), class: "form-control", id: "select_quote" %>
-                            <% end %>
-                        <% end %>
-                    </td>
-                </tr>
-            <% end %>
-        </table>
-
         <%# <div class="cards"> %>
             <%# <% @quotes.each do |quote| %>
                 <%# <div class="card"> %>
@@ -176,6 +142,48 @@
                 <%# </div> %>
             <%# <% end %>
         <%# </div> %>
+    </div>
+</div>
+
+<div class="row">
+    <div class="column side"></div>
+
+    <div class="column middle">
+        <hr style="height:2px;border-width:0;color:gray;background-color:gray;"> 
+        <h3>Quotes</h3>
+
+        <table style="width: 100%;">
+            <tr>
+                <th>Quote Submitter</th>
+                <th>Quote</th>
+                <th>Special Conditions</th>
+                <th>Selection</th>
+            </tr>
+            <% @quotes.each do |quote| %>
+                <tr>
+                    <td><%= User.find(quote.user_id).name %></td>
+                    <td>
+                        <% if quote.quote_submitted == nil || quote.quote_submitted == false %>
+                            No Quote Submitted
+                        <% else %>
+                            <%= quote.cost %> <%= quote.currency %>
+                        <% end %>
+                    </td>
+                    <td>
+                        <%= quote.special_conditions %>
+                    </td>
+                    <td>
+                        <% if @rfq.state != true %>
+                            <% if quote.quote_submitted != true %>
+                                <button class="form-control" disabled="true">Unable To Select Quote</button>
+                            <% else %>
+                                <%= link_to "Select Quote", edit_rfq_quote_path(@rfq, quote), class: "form-control", id: "select_quote" %>
+                            <% end %>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+        </table>
     </div>
 </div>
 

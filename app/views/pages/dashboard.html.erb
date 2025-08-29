@@ -12,6 +12,7 @@
         -->
         <table style="width:100%">
             <tr>
+                <th>RFQ ID</th>
                 <th>Pickup Name</th>
                 <th>Pickup Street Address</th>
                 <th>Dropoff Street Address</th>
@@ -22,6 +23,7 @@
             </tr>
         <% @rfq_data.each do |data| %>
             <tr>
+                <td><%= data.id %></td>
                 <td><%= data.pickup_name %></td>
                 <td><%= data.pickup_street_address %></td>
                 <td><%= data.shipto_street_address %></td>
@@ -58,10 +60,10 @@
                 <td><%= Rfq.find(data.rfq_id).shipto_street_address %></td>
                 <td>
                     <% if !data[:quote_submitted] %>
-                        <%= link_to "Create Quote", edit_quote_path(data), class: "form-control", id: "select_quote" %>
+                        <%= link_to "Create Quote", edit_quote_path(data), class: "form-control", id: "create_quote" %>
                     <% else %>
                         <% if Rfq.find(data.rfq_id).state != true %>
-                            <%= link_to "Under Consideration", edit_quote_path(data) %>
+                            <%= link_to "Under Consideration", edit_quote_path(data), class: "form-control", id: "consider_quote" %>
                         <% else %>
                             <% if data[:state] %>
                                 <%= link_to "Quote Selected", edit_quote_path(data), class: "form-control", id: "quote_selected" %>
@@ -75,6 +77,5 @@
         <% end %>
         </table>
     </div>
-    <div class="column side">
-    </div>
+    <div class="column side"></div>
 </div>
