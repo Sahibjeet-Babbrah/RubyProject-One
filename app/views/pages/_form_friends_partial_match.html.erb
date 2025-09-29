@@ -1,0 +1,24 @@
+<%= form_with url: pages_favourite_users_path, method: :get, data: {controller: "users-filter", turbo_action: 'replace'} do |form|%>
+    
+    <%# Preserve the existing sort parameters %>
+    <% if params[:column].present? %>
+        <%= form.hidden_field :column, value: params[:column] %>
+    <% end %>
+    <% if params[:direction].present? %>
+        <%= form.hidden_field :direction, value: params[:direction] %>
+    <% end %>
+
+    <%# Add other filter parameters except the current one %>
+    <% params.each do |key, value| %>
+        <% next if key == field_name || key == 'column' || key == 'direction' || key == 'controller' || key == 'action' %>
+        <%= form.hidden_field key, value: value %>
+    <% end %>
+    
+    <%= form.text_field(
+        field_name,
+        placeholder: placeholder,
+        value: params[field_name],
+        class: "form-control form-control-sm",
+        autocomplete: "off",
+        data: {action: "input->users-filter#filter"}) %>
+<% end %>

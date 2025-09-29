@@ -10,11 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_24_021436) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_29_195110) do
   create_table "currencies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "followships", force: :cascade do |t|
+    t.integer "follower_id"
+    t.integer "followee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followee_id"], name: "index_followships_on_followee_id"
+    t.index ["follower_id", "followee_id"], name: "index_followships_on_follower_id_and_followee_id", unique: true
+    t.index ["follower_id"], name: "index_followships_on_follower_id"
   end
 
   create_table "items", force: :cascade do |t|

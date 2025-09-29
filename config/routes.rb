@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get 'pages/secret'
   get 'pages/index'
   get 'pages/dashboard'
+  get 'pages/favourite_users'
   get '/rfqs/new', to: "rfqs#new"
   resources :user_sessions, only: [:new, :create, :destroy]
   resources :users, only: [:index, :new, :create]
@@ -30,4 +31,5 @@ Rails.application.routes.draw do
   end
   resources :quotes
   resources :items, only: [:new, :create]
+  resources :followships, only: [:create, :destroy]
 end

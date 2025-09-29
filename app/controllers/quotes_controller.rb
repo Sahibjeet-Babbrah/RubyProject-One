@@ -13,10 +13,6 @@ class QuotesController < ApplicationController
     end
   end
 
-  def select
-    
-  end
-
   def view
     if current_user.blank?
       render plain: '401 Unauthorized', status: :unauthorized

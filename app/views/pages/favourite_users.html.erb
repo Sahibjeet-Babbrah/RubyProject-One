@@ -1,0 +1,88 @@
+<h1 style="padding-left: 2%;">List of Suppliers</h1>
+
+<div class="row">
+    <div class="column side">
+        <div class="panel-body sidenav" style="border: 2px solid gray">
+            <h3 style="padding-left: 2%;">Filters</h3>
+            Country: <%= render "form_friends_partial_match", field_name: :country_filter, placeholder: "Country" %>
+            <br>
+            City: <%= render "form_friends_partial_match", field_name: :city_filter, placeholder: "City" %>
+            <br>
+            Truck Type: <%= render "form_friends_truck", field_name: :truck_filter, options: ["Flatbed", "Refrigerated", "Straight", "Tanker", "Jumbo Trailer", "Semi Trailer", "Dump", "Box", "Tail Lift"] %>
+        
+        </div>
+    </div>
+    <%# Follow Below To Add Sorting To Table %>
+<%# https://dev.to/davidcolbyatx/sort-tables-almost-instantly-with-ruby-on-rails-and-turbo-frames-ip7 %>
+
+    <%# Main Article To Follow %>
+<%# https://btihen.dev/posts/ruby/rails_8_0_rails_table_filtering_sorting/ %>
+    <div class="column middle">
+        <table style="width:100%">
+
+            <tr>
+                <th>User <%= sort_link(column: "name") %></th>
+                <th>Address <%= sort_link(column: "street_address") %></th>
+                <th>Trucks</th>
+                <th>Following</th>
+            </tr>
+
+            <% @users.each do |user| %>
+                <tr>
+                    <td><%= user.name %></td>
+                    <td><%= user.street_address %> <%= user.city_area %> <%= user.city %> <%= user.county %> <%= user.country %></td>
+                    <td>
+                        <% if user.flatbed_trucks%>
+                            Flatbed Trucks,
+                        <% end %>
+                        
+                        <% if user.refrigerated_trucks %>
+                            Refrigerated Trucks,
+                        <% end %>
+                                                
+                        <% if user.straight_trucks %>
+                            Straight Trucks,
+                        <% end %>
+                        
+                        <% if user.tanker_trucks %>
+                            Tanker Trucks,
+                        <% end %>
+                        
+                        <% if user.jumbo_trailer_trucks %>
+                            Jumbo Trailer Trucks,
+                        <% end %>
+
+                        <% if user.semi_trailer_trucks %>
+                            Semi-Trailer Trucks,
+                        <% end %>
+                        
+                        <% if user.dump_trucks %>
+                            Dump Trucks,
+                        <% end %>
+                        
+                        <% if user.box_trucks %>
+                            Box Trucks,
+                        <% end %>
+                        
+                        <% if user.tail_lift_trucks %>
+                            Tail Lift Trucks,
+                        <% end %>
+                    </td>
+
+                    <td>
+                        <% if current_user.following?(user) %>
+                            <%= render 'users/unfollow', user: user %>
+                        <% else %>
+                            <%= render 'users/follow', user: user %>
+                        <% end %>
+                    </td>
+                </tr>
+            
+            <% end %>
+        </table>
+
+
+    </div>
+
+
+</div>
