@@ -8,6 +8,10 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <!-- adds morph dom and scroll preservation to every page -->
+    <% turbo_refreshes_with method: :morph, scroll: :preserve %>
+    <% yield :head %>
   </head>
 
   <%# <p class="notice"><%= notice</p> %>

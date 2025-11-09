@@ -40,6 +40,6 @@ class QuotesController < ApplicationController
 
   private
     def quote_params
-      params.require(:quote).permit(:cost, :special_conditions, :state, :quote_submitted, :rfq_state, :rfq_length, :currency)
+      params.require(:quote).permit(:rfq_id, :user_id, :cost, :special_conditions, :state, :quote_submitted, :rfq_state, :rfq_length, :currency)
     end
 end

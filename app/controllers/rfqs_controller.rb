@@ -7,17 +7,40 @@ class RfqsController < ApplicationController
     end
     @rfq = Rfq.new#; @rfq.items.build;
     # 2.times {@rfq.items.build}
-    @user = User.new
+    # @user = User.new
+    @users_list = User.where("NOT id=#{current_user.id}")
   end
 
   def create
     if current_user.blank?
       render plain: '401 Unauthorized', status: :unauthorized
     end
+    @users_list = User.where("NOT id=#{current_user.id}")
+
+    # if (rfq_params[:users_send_quote])
+    #   render :new, status: :unprocessable_content
+    # end
+    
+    # rfq_params.except[:users_send_quote]
+
+    array_users = rfq_params[:users_send_quote]
+    # array_users.each {
+    #   |x| puts x
+    # }
+
+    
     @rfq = Rfq.create(rfq_params)
+
+    # print(new_params)
 
     if @rfq.valid?
       @rfq.save
+      
+      array_users.each do |u_id|
+        q = Quote.new(rfq_id: @rfq.id, user_id: u_id, cost: 0, special_conditions: "", state: nil, quote_submitted: nil, currency: "")
+        q.save
+      end
+      
       session[:notice] = "Rfq Created"
       redirect_to pages_dashboard_path
     else
@@ -61,7 +84,7 @@ class RfqsController < ApplicationController
   def rfq_params
     params.require(:rfq).permit(:pickup_name, :pickup_street_address, :pickup_city_area, :pickup_city, :pickup_county, :pickup_state, :pickup_postal, :pickup_country,
                                 :shipto_name, :shipto_street_address, :shipto_city_area, :shipto_city, :shipto_county, :shipto_state, :shipto_postal, :shipto_country,
-                                :pickup_date, :delivery_date, :state, :user_id,
+                                :pickup_date, :delivery_date, :state, :user_id, :users_send_quote => [],
                                 :items_attributes => [:id, :_destroy, :name, :length, :width, :height, :weight, :description, :special_conditions],
                                 :quotes_attributes => [:id, :_destroy, :cost, :special_conditions, :state, :rfq_id, :user_id, :quote_submitted, :currency])
   end

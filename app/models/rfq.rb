@@ -21,10 +21,14 @@ class Rfq < ApplicationRecord
     validates :shipto_state, presence: true
     validates :shipto_country, presence: true
 
+    # validates :users_send_quote, presence: true
+
     validates :pickup_date, :delivery_date, presence: true
     # validate :delivery_date_after_pickup_date
 
     validates :items, length: {minimum: 1, message: "Must contain at least 1 item"}
+    validates :users_send_quote, length: {minimum: 1, message: "Must select at least 1 user"}
 
     validates_associated :items
+    serialize :users_send_quote, coder: JSON
 end

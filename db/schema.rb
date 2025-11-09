@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_29_195110) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_12_164750) do
   create_table "currencies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -83,6 +83,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_29_195110) do
     t.string "special_conditions"
     t.string "pickup_state"
     t.string "shipto_state"
+    t.text "users_send_quote"
     t.index ["user_id"], name: "index_rfqs_on_user_id"
   end
 

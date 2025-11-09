@@ -27,22 +27,20 @@ https://kylerego.github.io/one-way-to-add-and-remove-form-fields-on-the-fly-in-r
 
     <br>
 
-    <fieldset>
-        <h3>Users to Request Quote:</h3>
-        <div data-controller="nested-rondo" data-nested-rondo-field-class-value="quote-field">
-            <%= f.fields_for :quotes do |quote| %>
-                <%= render "quote_fields", f: quote %>
-            <% end %>
-            <div class="links">
-                <%= link_to_add_association "Add Requestee", f, :quotes, class: "form-control" %>
-            </div>
-            <p data-nested-rondo-target="fieldContain">
+    <%# <fieldset> %>
+        <%# <h3>Users to Request Quote:</h3> %>
+        <%# <div data-controller="nested-rondo" data-nested-rondo-field-class-value="quote-field"> %>
+            <%# <%= f.fields_for :quotes do |quote| %> 
+                <%# <%= render "quote_fields", f: quote %> 
+            <%# <% end  %>
+            <%# <div class="links"> %>
+                <%# <%= link_to_add_association "Add Requestee", f, :quotes, class: "form-control" %>
+            <%# </div> %>
+            <%# <p data-nested-rondo-target="fieldContain"> %>
 
-            </p>
-        </div>
-
-        <button type="button" data-reflex="click->Quote#add">Add Requestee</button>
-    </fieldset>
+            <%# </p> %>
+        <%# </div> %>
+    <%# </fieldset> %>
 
     <br>
 
@@ -295,6 +293,49 @@ https://kylerego.github.io/one-way-to-add-and-remove-form-fields-on-the-fly-in-r
 
     <br>
     
+    <fieldset class="cards2column">
+        <table class="scrolldown">
+            <tr>
+                <th>User</th>
+                <th>Address</th>
+                <th>Selected</th>
+            </tr>
+
+            <% @temp_list = Array.new%>
+            <% @users_list.each do |user| %>
+                <% if current_user.following?(user) %>
+                <tr>
+                    <td><%= user.id %></td>
+                    <td><%= user.street_address %>, <%= user.city %>, <%= user.country %></td>
+                    <td><%= f.check_box :users_send_quote, {multiple: true}, user.id, nil %></td>
+                </tr>
+                <% else %>
+                    <% @temp_list.append(user) %>
+                <% end %>
+            <% end %>
+        </table>
+
+        <table class="scrolldown">
+            <tr>
+                <th>User</th>
+                <th>Address</th>
+                <th>Selected</th>
+            </tr>
+            <% @temp_list.each do |user| %>
+                <tr>
+                    <td><%= user.id %></td>
+                    <td><%= user.street_address %>, <%= user.city %>, <%= user.country %></td>
+                    <td><%= f.check_box :users_send_quote, {multiple: true}, user.id, nil %></td>
+                </tr>
+            <% end %>
+        </table>
+    </fieldset>
+
+    <% @rfq.errors.full_messages.each do |error_message| %>
+        <%= error_message %> <br>
+    <% end %>
+
+
     <%= f.hidden_field :state, value: nil %>
     <%= f.hidden_field :user_id, value: current_user.id %>
     
